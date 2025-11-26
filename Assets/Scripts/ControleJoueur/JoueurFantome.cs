@@ -4,23 +4,89 @@ using UnityEngine.UI;
 public class JoueurFantome : MonoBehaviour
 {
 
-    // VIE DU JOUEUR FANTOME
-    public float santeActuel; // Variable de la barre de sante
-    public float santeDepars; // Valeur de la sante de dépars commencant par 100
-    public Image niveauSante; // Image de la barre de santé
+    public float vitesse;
+    float forceDeplacement;
+    float forceDeplacementH;
+    public float vitesseTourne;
+    public string objetEnMain;
+    public Transform mains;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Rigidbody rb;
+
+
+    public float santeDepars = 100f;
+    public float santeActuel;
+    public Image niveauSante;
+    public Transform cible;
+
     void Start()
     {
-        santeActuel = santeDepars; // La sante commence au maximum pour commencer
+
+        rb = GetComponent<Rigidbody>();
+        santeActuel = santeDepars;
+        UpdateBarreVie();
+    }
+
+    void Update()
+    {
+        forceDeplacement  = Input.GetAxis("Vertical") * vitesse;
+        forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
+
+        float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
+        transform.Rotate(0f, valeurTourne, 0f);
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // Si le joueur se fait touché par le raycast du spotLight du chasseur sa santé descant
 
+        // Déplacement sans glissement
+        Vector3 move = (transform.forward * forceDeplacement) 
+                    + (transform.right * forceDeplacementH);
+
+        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+    
+    }
+
+
+
+
+    public void PrendreDegats(float degats)
+    {
+        // Regarde vers le joueur (optionnel)
+        if (cible != null)
+            transform.LookAt(cible);
+
+        // Enlève les dégâts
+        santeActuel -= degats;
+
+        // Empêche les valeurs négatives
+        if (santeActuel < 0)
+            santeActuel = 0;
+
+        // Mets à jour la barre
+        UpdateBarreVie();
+
+        // Le joueur est mort
+        if (santeActuel == 0)
+        {
+            FantomeMort();
+        }
+    }
+
+    void UpdateBarreVie()
+    {
+        niveauSante.fillAmount = santeActuel / santeDepars;
+    }
+
+    void FantomeMort()
+    {
+        Debug.Log("Fantôme mort !");
         
+        // Empêche le raycast de le toucher encore
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+            col.enabled = false;
+
+        // Tu peux rajouter une animation, disparition, etc.
     }
 }
