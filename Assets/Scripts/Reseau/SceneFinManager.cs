@@ -1,43 +1,43 @@
-// using Unity.Netcode;
-// using UnityEngine;
-// using UnityEngine.SceneManagement;
-// using Unity.Services.Authentication;
-// using TMPro;
-// using UnityEngine.UI;
-// using System.Threading.Tasks;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Unity.Services.Authentication;
+using TMPro;
+using UnityEngine.UI;
+using System.Threading.Tasks;
 
-// public class SceneFinUI : NetworkBehaviour
-// {
-//     // Rendre l'instance accessible (Singleton)
-//     public static SceneFinUI Instance { get; private set; }
+public class SceneFinUI : NetworkBehaviour
+{
+    // Rendre l'instance accessible (Singleton)
+    public static SceneFinUI Instance { get; private set; }
 
-//     // Variable réseau pour synchroniser le gagnant 
-//     // -1 = pas de gagnant défini
-//     // 0 = Joueur 0 gagne
-//     // 1 = Joueur 1 gagne
-//     // 2 = Joueur 2 gagne
-//     // etc...
-//     public NetworkVariable<int> idJoueurGagnant = new NetworkVariable<int>(-1);
+    // Variable réseau pour synchroniser le gagnant 
+    // -1 = pas de gagnant défini
+    // 0 = Joueur 0 gagne
+    // 1 = Joueur 1 gagne
+    // 2 = Joueur 2 gagne
+    // etc...
+    public NetworkVariable<int> idJoueurGagnant = new NetworkVariable<int>(-1);
 
-//     // Référence à l'UI qui sera trouvée dynamiquement dans la scène "SceneFin"
-//     private TMP_Text _texteJoueurGagnant;
+    // Référence à l'UI qui sera trouvée dynamiquement dans la scène "SceneFin"
+    private TMP_Text _texteJoueurGagnant;
     
-//     // Noms des scènes (à vérifier dans Build Settings)
-//     private const string SceneJeu = "Jeu";
-//     private const string SceneFin = "SceneFin"; 
+    // Noms des scènes (à vérifier dans Build Settings)
+    private const string SceneJeu = "Jeu";
+    private const string SceneFin = "SceneFin"; 
 
-//     // scene du lobby il faut juste passer par le bootstrap pour reset tout
-//     private const string SceneLobby = "Bootstrap";
+    // scene du lobby il faut juste passer par le bootstrap pour reset tout
+    private const string SceneLobby = "Bootstrap";
 
-//     // --- LOGIQUE DE PERSISTANCE ET D'INITIALISATION ---
+    // --- LOGIQUE DE PERSISTANCE ET D'INITIALISATION ---
 
-//     private void Awake()
-//     {
-//         if (Instance == null)
-//         {
-//             Instance = this;
-//             // Assure que l'objet persiste entre les scènes (DDOL)
-//             DontDestroyOnLoad(gameObject);
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // Assure que l'objet persiste entre les scènes (DDOL)
+            DontDestroyOnLoad(gameObject);
             
             // S'abonne à l'événement de chargement de scène pour mettre à jour l'UI
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -139,111 +139,111 @@
     {
         if (!IsServer) return;
         
-//         // 1. Stocke et synchronise le gagnant
-//         idJoueurGagnant.Value = gagnant; 
+        // 1. Stocke et synchronise le gagnant
+        idJoueurGagnant.Value = gagnant; 
         
-//         // 2. Change la scène pour tous les clients (sans déconnexion)
-//         NetworkManager.Singleton.SceneManager.LoadScene(SceneFin, LoadSceneMode.Single);
-//     }
+        // 2. Change la scène pour tous les clients (sans déconnexion)
+        NetworkManager.Singleton.SceneManager.LoadScene(SceneFin, LoadSceneMode.Single);
+    }
 
 
-//     // --- LOGIQUE DES BOUTONS DANS SCENEFIN ---
+    // --- LOGIQUE DES BOUTONS DANS SCENEFIN ---
 
-//     // Bouton 1 : Recommencer la partie (Mêmes joueurs, même session)
-//     public void Rejouer()
-//     {
-//         if (!IsHost) return; 
+    // Bouton 1 : Recommencer la partie (Mêmes joueurs, même session)
+    public void Rejouer()
+    {
+        if (!IsHost) return; 
         
-//         // Réinitialiser la NetworkVariable
-//         idJoueurGagnant.Value = -1;
+        // Réinitialiser la NetworkVariable
+        idJoueurGagnant.Value = -1;
         
-//         RecommencerPartieServerRpc();
-//     }
+        RecommencerPartieServerRpc();
+    }
 
-//     [ServerRpc(RequireOwnership = false)]
-//     private void RecommencerPartieServerRpc()
-//     {
-//         // L'Hôte recharge la scène de Jeu pour tout le monde (NetworkManager reste actif)
-//         NetworkManager.Singleton.SceneManager.LoadScene(SceneJeu, LoadSceneMode.Single);
-//     }
+    [ServerRpc(RequireOwnership = false)]
+    private void RecommencerPartieServerRpc()
+    {
+        // L'Hôte recharge la scène de Jeu pour tout le monde (NetworkManager reste actif)
+        NetworkManager.Singleton.SceneManager.LoadScene(SceneJeu, LoadSceneMode.Single);
+    }
     
-//     // Bouton 2 : Nouvelle Partie (Retour au Lobby)
-//     public void NouvellePartie()
-//     {
-//         if (!IsHost) return; 
+    // Bouton 2 : Nouvelle Partie (Retour au Lobby)
+    public void NouvellePartie()
+    {
+        if (!IsHost) return; 
         
-//         // Réinitialiser la NetworkVariable
-//         idJoueurGagnant.Value = -1;
+        // Réinitialiser la NetworkVariable
+        idJoueurGagnant.Value = -1;
 
-//         RetournerAuLobbyServerRpc();
-//     }
+        RetournerAuLobbyServerRpc();
+    }
 
-//     [ServerRpc(RequireOwnership = false)]
-//     private void RetournerAuLobbyServerRpc()
-//     {
-//         // 1. Envoyer l'instruction aux clients de nettoyer et de changer de scène
-//         RetourLobbyClientRPC();
+    [ServerRpc(RequireOwnership = false)]
+    private void RetournerAuLobbyServerRpc()
+    {
+        // 1. Envoyer l'instruction aux clients de nettoyer et de changer de scène
+        RetourLobbyClientRPC();
 
-//         // 2. Nettoyage de l'Hôte
-//         if (AuthenticationService.Instance.IsSignedIn)
-//         {
-//             AuthenticationService.Instance.SignOut();
-//         }
+        // 2. Nettoyage de l'Hôte
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+            AuthenticationService.Instance.SignOut();
+        }
         
-//         // 3. L'Hôte arrête son propre réseau
-//         NetworkManager.Singleton.Shutdown(); 
+        // 3. L'Hôte arrête son propre réseau
+        NetworkManager.Singleton.Shutdown(); 
 
-//         // 4. Nettoyage des Singletons (Crucial pour le re-bootstrap)
-//         CleanUpSingletons();
+        // 4. Nettoyage des Singletons (Crucial pour le re-bootstrap)
+        CleanUpSingletons();
 
-//         // 5. L'Hôte charge la scène du lobby en mode local
-//         SceneManager.LoadScene(SceneLobby);
-//     }
+        // 5. L'Hôte charge la scène du lobby en mode local
+        SceneManager.LoadScene(SceneLobby);
+    }
 
-//     [ClientRpc]
-//     private void RetourLobbyClientRPC()
-//     {
-//         if (IsHost) return; 
+    [ClientRpc]
+    private void RetourLobbyClientRPC()
+    {
+        if (IsHost) return; 
 
-//         // 1. Nettoyage du Client
-//         if (AuthenticationService.Instance.IsSignedIn)
-//         {
-//             AuthenticationService.Instance.SignOut(); 
-//         }
+        // 1. Nettoyage du Client
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+            AuthenticationService.Instance.SignOut(); 
+        }
         
-//         // 2. Les Clients s'arrêtent
-//         NetworkManager.Singleton.Shutdown();
+        // 2. Les Clients s'arrêtent
+        NetworkManager.Singleton.Shutdown();
         
-//         // 3. Nettoyage des Singletons (Crucial pour le re-bootstrap)
-//         CleanUpSingletons();
+        // 3. Nettoyage des Singletons (Crucial pour le re-bootstrap)
+        CleanUpSingletons();
 
-//         // 4. Chargement du Lobby
-//         SceneManager.LoadScene(SceneLobby); 
-//     }
+        // 4. Chargement du Lobby
+        SceneManager.LoadScene(SceneLobby); 
+    }
     
-//     // Fonction dédiée au nettoyage des objets persistants (Singletons)
-//     private void CleanUpSingletons()
-//     {   
-//         if (NetworkManager.Singleton != null)
-//         {
-//             Destroy(NetworkManager.Singleton.gameObject); 
-//         }
+    // Fonction dédiée au nettoyage des objets persistants (Singletons)
+    private void CleanUpSingletons()
+    {   
+        if (NetworkManager.Singleton != null)
+        {
+            Destroy(NetworkManager.Singleton.gameObject); 
+        }
         
-//         if (RelayManager.instance != null)
-//         {
-//             Destroy(RelayManager.instance.gameObject);
-//         }
+        if (RelayManager.instance != null)
+        {
+            Destroy(RelayManager.instance.gameObject);
+        }
         
-//         if (NavigationManager.singleton != null)
-//         {
-//             Destroy(NavigationManager.singleton.gameObject);
-//         }
+        if (NavigationManager.singleton != null)
+        {
+            Destroy(NavigationManager.singleton.gameObject);
+        }
         
-//         // Destruire CET objet aussi, car il sera recréé par le Bootstrap
-//         if (Instance != null) 
-//         {
-//             Destroy(gameObject); 
-//             Instance = null;
-//         }
-//     }
-// }
+        // Destruire CET objet aussi, car il sera recréé par le Bootstrap
+        if (Instance != null) 
+        {
+            Destroy(gameObject); 
+            Instance = null;
+        }
+    }
+}
