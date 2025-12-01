@@ -27,6 +27,13 @@ public class JoueurChasseur : MonoBehaviour
     public static int compteJournee;
     public TextMeshProUGUI affichageJournee;
 
+    // FLASHLIGHT
+    public Light spotLight;
+    private bool isOn = false; // État actuel
+
+    public float rayDistance = 20f; // Distance maximale du faisceau
+    public LayerMask hitLayers; // Ce que la lampe peur voir
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,6 +42,12 @@ public class JoueurChasseur : MonoBehaviour
         tempsActuel = tempsDepars; // Le temps commence au maximum
         compteJournee += 1; // On compte les journees
         //affichageJournee.text = "Jour " + compteJournee.ToString(); // Affiche le numéro de la journée
+
+        if (spotLight != null)
+        {
+            spotLight.enabled = false; // Commence éteinte
+        }
+         
 
     }
    
@@ -45,6 +58,21 @@ public class JoueurChasseur : MonoBehaviour
 
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
+
+        
+        // Si le joueur appuie sur la touche F, il allume la flashlight ( toggle)
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            isOn = !isOn;
+            spotLight.enabled = isOn;
+        }
+
+        if(isOn)
+        {
+            // Le raycast s'active
+            DoRaycast();
+        }
+
     }
 
     void FixedUpdate()
@@ -58,16 +86,37 @@ public class JoueurChasseur : MonoBehaviour
                     + (transform.right * forceDeplacementH);
 
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+    
     }
 
-    public void PrendreObjet(string objet)
-    {
-        objetEnMain = objet;
-    }
 
-    public void DonnerObjet(string objet)
+    void DoRaycast()
     {
-        objetEnMain = objet;
-        objetEnMain = null;
+        RaycastHit hit;
+
+        // Ligne rouge = direction du rayon
+        Debug.DrawRay(spotLight.transform.position,
+                    spotLight.transform.forward * rayDistance,
+                    Color.red);
+
+        if (Physics.Raycast(spotLight.transform.position,
+                            spotLight.transform.forward,
+                            out hit,
+                            rayDistance,
+                            hitLayers))
+        {
+            Debug.DrawLine(spotLight.transform.position, hit.point, Color.yellow);
+
+            if (hit.collider.CompareTag("fantome"))
+            {
+                JoueurFantome fantome = hit.collider.GetComponentInParent<JoueurFantome>();
+
+                if (fantome != null)
+                {
+                    print("Le fantome perd sa vie");
+                    fantome.PrendreDegats(20f);
+                }
+            }
+        }
     }
 }
