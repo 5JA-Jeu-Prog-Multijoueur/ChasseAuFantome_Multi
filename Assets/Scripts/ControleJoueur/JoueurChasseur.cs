@@ -24,8 +24,6 @@ public class JoueurChasseur : MonoBehaviour
 
     public GameObject CanvasFin; // Variable du canvas affichant le score
 
-    public static int compteJournee;
-    public TextMeshProUGUI affichageJournee;
 
     // FLASHLIGHT
     public Light spotLight;
@@ -39,9 +37,6 @@ public class JoueurChasseur : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         //animator = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked; // Permet de ne plus voir le curseur
-        tempsActuel = tempsDepars; // Le temps commence au maximum
-        compteJournee += 1; // On compte les journees
-        //affichageJournee.text = "Jour " + compteJournee.ToString(); // Affiche le numéro de la journée
 
         if (spotLight != null)
         {
