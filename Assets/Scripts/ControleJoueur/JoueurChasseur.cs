@@ -69,6 +69,7 @@ public class JoueurChasseur : MonoBehaviour
 
         if(isOn)
         {
+            // Le raycast s'active
             DoRaycast();
         }
 
@@ -91,35 +92,31 @@ public class JoueurChasseur : MonoBehaviour
 
     void DoRaycast()
     {
-         RaycastHit hit;
+        RaycastHit hit;
 
-        // Point de départ = position de la lampe
-        // Direction = avant (forward)
+        // Ligne rouge = direction du rayon
+        Debug.DrawRay(spotLight.transform.position,
+                    spotLight.transform.forward * rayDistance,
+                    Color.red);
+
         if (Physics.Raycast(spotLight.transform.position,
                             spotLight.transform.forward,
                             out hit,
                             rayDistance,
                             hitLayers))
         {
-            Debug.DrawLine(spotLight.transform.position,
-                           hit.point,
-                           Color.yellow);  // Visualisation dans la Scene
+            Debug.DrawLine(spotLight.transform.position, hit.point, Color.yellow);
 
-            // Exemple : afficher ce que la lampe éclaire
-            Debug.Log("Flashlight éclaire : " + hit.collider.name);
-
-                  // Vérifie si on a touché un joueur
             if (hit.collider.CompareTag("fantome"))
             {
-                Debug.Log("Le Raycast a touché un autre joueur !");
-                // faire descendre la barre de vie du fantome, en appellant la fonction 
+                JoueurFantome fantome = hit.collider.GetComponentInParent<JoueurFantome>();
+
+                if (fantome != null)
+                {
+                    print("Le fantome perd sa vie");
+                    fantome.PrendreDegats(20f);
+                }
             }
-        }
-        else
-        {
-            Debug.DrawLine(spotLight.transform.position,
-                           spotLight.transform.position + spotLight.transform.forward * rayDistance,
-                           Color.white);
         }
     }
 }
