@@ -69,7 +69,7 @@ public class SceneFinUI : NetworkBehaviour
         if (scene.name == SceneFin)
         {
             // Trouvez le GameObject par son NOM
-            GameObject winningTextGO = GameObject.Find("TMP-JoueurGagnant");
+            GameObject winningTextGO = GameObject.Find("TxtGagnant");
             
             if (winningTextGO != null)
             {
@@ -82,7 +82,7 @@ public class SceneFinUI : NetworkBehaviour
             }
 
             // Bouton 1: Rejouer (Mêmes joueurs)
-            Button rejouerButton = GameObject.Find("Btn-Rejouer")?.GetComponent<Button>();
+            Button rejouerButton = GameObject.Find("ButtonRejouer")?.GetComponent<Button>();
             if (rejouerButton != null)
             {
                 rejouerButton.onClick.RemoveAllListeners();
@@ -90,7 +90,7 @@ public class SceneFinUI : NetworkBehaviour
             }
             
             // Bouton 2: Nouvelle Partie (Retour Lobby)
-            Button nouvellePartieButton = GameObject.Find("Btn-NouvellePartie")?.GetComponent<Button>();
+            Button nouvellePartieButton = GameObject.Find("ButtonNouvellePartie")?.GetComponent<Button>();
             if (nouvellePartieButton != null)
             {
                 nouvellePartieButton.onClick.RemoveAllListeners();
