@@ -39,105 +39,105 @@
 //             // Assure que l'objet persiste entre les scènes (DDOL)
 //             DontDestroyOnLoad(gameObject);
             
-//             // S'abonne à l'événement de chargement de scène pour mettre à jour l'UI
-//             SceneManager.sceneLoaded += OnSceneLoaded;
-//         }
-//         else if (Instance != this)
-//         {
-//             // Détruire les doublons (ceux créés dans une nouvelle scène)
-//             Destroy(gameObject);
-//         }
-//     }
+            // S'abonne à l'événement de chargement de scène pour mettre à jour l'UI
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else if (Instance != this)
+        {
+            // Détruire les doublons (ceux créés dans une nouvelle scène)
+            Destroy(gameObject);
+        }
+    }
 
-//     public override void OnNetworkSpawn()
-//     {
-//         // S'abonner à l'événement de changement de la NetworkVariable
-//         idJoueurGagnant.OnValueChanged += UpdateUI;
+    public override void OnNetworkSpawn()
+    {
+        // S'abonner à l'événement de changement de la NetworkVariable
+        idJoueurGagnant.OnValueChanged += UpdateUI;
 
-//         // Mise à jour immédiate si la valeur est déjà définie (pour un client rejoignant tard)
-//         if (idJoueurGagnant.Value != -1)
-//         {
-//              // Utilise la valeur actuelle pour la mise à jour de l'UI
-//              UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
-//         }
-//     }
+        // Mise à jour immédiate si la valeur est déjà définie (pour un client rejoignant tard)
+        if (idJoueurGagnant.Value != -1)
+        {
+             // Utilise la valeur actuelle pour la mise à jour de l'UI
+             UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
+        }
+    }
 
-//     // Fonction de Callback qui se déclenche après chaque chargement de scène
-//     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-//     {
-//         // Vérifiez si c'est la scène de fin de partie qui est chargée
-//         if (scene.name == SceneFin)
-//         {
-//             // Trouvez le GameObject par son NOM
-//             GameObject winningTextGO = GameObject.Find("TMP-JoueurGagnant");
+    // Fonction de Callback qui se déclenche après chaque chargement de scène
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Vérifiez si c'est la scène de fin de partie qui est chargée
+        if (scene.name == SceneFin)
+        {
+            // Trouvez le GameObject par son NOM
+            GameObject winningTextGO = GameObject.Find("TxtGagnant");
             
-//             if (winningTextGO != null)
-//             {
-//                 _texteJoueurGagnant = winningTextGO.GetComponent<TMP_Text>();
-//             }
+            if (winningTextGO != null)
+            {
+                _texteJoueurGagnant = winningTextGO.GetComponent<TMP_Text>();
+            }
 
-//             if (_texteJoueurGagnant != null)
-//             {
-//                 UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
-//             }
+            if (_texteJoueurGagnant != null)
+            {
+                UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
+            }
 
-//             // Bouton 1: Rejouer (Mêmes joueurs)
-//             Button rejouerButton = GameObject.Find("Btn-Rejouer")?.GetComponent<Button>();
-//             if (rejouerButton != null)
-//             {
-//                 rejouerButton.onClick.RemoveAllListeners();
-//                 rejouerButton.onClick.AddListener(Rejouer);
-//             }
+            // Bouton 1: Rejouer (Mêmes joueurs)
+            Button rejouerButton = GameObject.Find("ButtonRejouer")?.GetComponent<Button>();
+            if (rejouerButton != null)
+            {
+                rejouerButton.onClick.RemoveAllListeners();
+                rejouerButton.onClick.AddListener(Rejouer);
+            }
             
-//             // Bouton 2: Nouvelle Partie (Retour Lobby)
-//             Button nouvellePartieButton = GameObject.Find("Btn-NouvellePartie")?.GetComponent<Button>();
-//             if (nouvellePartieButton != null)
-//             {
-//                 nouvellePartieButton.onClick.RemoveAllListeners();
-//                 nouvellePartieButton.onClick.AddListener(NouvellePartie);
-//             }
-//         }
-//         else
-//         {
-//             // Remet la référence à null lorsque l'on quitte la scène de fin
-//             _texteJoueurGagnant = null;
-//         }
-//     }
+            // Bouton 2: Nouvelle Partie (Retour Lobby)
+            Button nouvellePartieButton = GameObject.Find("ButtonNouvellePartie")?.GetComponent<Button>();
+            if (nouvellePartieButton != null)
+            {
+                nouvellePartieButton.onClick.RemoveAllListeners();
+                nouvellePartieButton.onClick.AddListener(NouvellePartie);
+            }
+        }
+        else
+        {
+            // Remet la référence à null lorsque l'on quitte la scène de fin
+            _texteJoueurGagnant = null;
+        }
+    }
 
-//     private void OnDestroy()
-//     {
-//         // Se désabonner des événements pour éviter les fuites de mémoire
-//         SceneManager.sceneLoaded -= OnSceneLoaded;
-//         if (idJoueurGagnant != null)
-//         {
-//             idJoueurGagnant.OnValueChanged -= UpdateUI;
-//         }
-//     }
+    private void OnDestroy()
+    {
+        // Se désabonner des événements pour éviter les fuites de mémoire
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (idJoueurGagnant != null)
+        {
+            idJoueurGagnant.OnValueChanged -= UpdateUI;
+        }
+    }
 
-//     // --- LOGIQUE D'AFFICHAGE ET DE MISE À JOUR ---
+    // --- LOGIQUE D'AFFICHAGE ET DE MISE À JOUR ---
 
-//     private void UpdateUI(int oldValue, int newValue)
-//     {
-//         // Mettre à jour l'UI avec la nouvelle valeur synchronisée
-//         UpdateUIText(_texteJoueurGagnant, newValue);
-//     }
+    private void UpdateUI(int oldValue, int newValue)
+    {
+        // Mettre à jour l'UI avec la nouvelle valeur synchronisée
+        UpdateUIText(_texteJoueurGagnant, newValue);
+    }
 
-//     // Fonction d'aide pour mettre à jour le texte
-//     private void UpdateUIText(TMP_Text targetText, int winnerId)
-//     {
-//         if (targetText != null && winnerId != -1)
-//         {
-//             targetText.text = "Victoire! Le joueur " + winnerId + " a gagné la partie.";
-//         }
-//     }
+    // Fonction d'aide pour mettre à jour le texte
+    private void UpdateUIText(TMP_Text targetText, int winnerId)
+    {
+        if (targetText != null && winnerId != -1)
+        {
+            targetText.text = "Victoire! Le joueur " + winnerId + " a gagné la partie.";
+        }
+    }
 
-//     // --- LOGIQUE D'APPEL ET DE CHANGEMENT DE SCÈNE (NETWORK) ---
+    // --- LOGIQUE D'APPEL ET DE CHANGEMENT DE SCÈNE (NETWORK) ---
 
-//     // Fonction appelée par JeuManager.GererVictoire() côté HÔTE
-//     [ServerRpc(RequireOwnership = false)]
-//     public void AnnoncerVictoireEtChargerSceneServerRpc(int gagnant)
-//     {
-//         if (!IsServer) return;
+    // Fonction appelée par JeuManager.GererVictoire() côté HÔTE
+    [ServerRpc(RequireOwnership = false)]
+    public void AnnoncerVictoireEtChargerSceneServerRpc(int gagnant)
+    {
+        if (!IsServer) return;
         
 //         // 1. Stocke et synchronise le gagnant
 //         idJoueurGagnant.Value = gagnant; 
