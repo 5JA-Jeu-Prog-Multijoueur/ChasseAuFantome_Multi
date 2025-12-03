@@ -6,6 +6,10 @@ TagManager:
   tags:
   - fantome
   - chasseur
+  - CachetteMur
+  - PorteA
+  - PorteB
+  - PorteArc
   layers:
   - Default
   - TransparentFX
