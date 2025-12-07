@@ -14,6 +14,7 @@ public class JoueurFantome : MonoBehaviour
     public GameObject toucheE;
 
     private bool porteOuvert = false;
+    private bool insideBarrel = false;
 
     Rigidbody rb;
 
@@ -164,6 +165,17 @@ public class JoueurFantome : MonoBehaviour
                     porteOuvert = true;
                 }
             }
+        }
+
+        else if(other.CompareTag("Barrel") && Input.GetKeyDown(KeyCode.E) && !insideBarrel) {
+            Vector3 positionBarrel = other.transform.position;
+            gameObject.transform.position = positionBarrel;
+            insideBarrel = true;
+
+            if(insideBarrel && Input.GetKeyDown(KeyCode.E)) {
+            positionBarrel.z += 2;
+            gameObject.transform.position = positionBarrel;
+        }
         }
     }
 
