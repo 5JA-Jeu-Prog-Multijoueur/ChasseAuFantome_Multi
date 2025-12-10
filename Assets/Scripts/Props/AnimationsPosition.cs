@@ -2,47 +2,82 @@ using UnityEngine;
 
 public class AnimationsPosition : MonoBehaviour
 {
-    public float moveSpeed = 2f;      // units per second
-    public Animator animator;
+    public float moveSpeed = 2f;
+    public float moveAmount = 2f;
+    public float openDelay = 2f;
 
-    private bool shouldMove = false;
+    public bool isOpening;
+    public bool isClosing;
+    public bool isOpen;
+    public bool isClosed = true;
+
     public bool playerInside;
+
     private float startZ;
     private float targetZ;
 
     void Start()
     {
         startZ = transform.position.z;
-        targetZ = startZ + 2f; // ✅ add exactly +2 on Z
+        targetZ = startZ + moveAmount;
     }
 
     void Update()
     {
-
-        if (playerInside && Input.GetKeyDown(KeyCode.E))
+        // ----- OPEN -----
+        if (playerInside && Input.GetKeyDown(KeyCode.E) && isClosed)
         {
-            shouldMove = true;
-
-            if (animator != null)
-                animator.SetBool("ouvre", true);
+            isOpening = true;
+            isClosed = false;
         }
 
-        if (!shouldMove) return;
+        if (isOpening)
+        {
+            MoveTo(targetZ);
 
+            if (Reached(targetZ))
+            {
+                isOpening = false;
+                isOpen = true;
+                Invoke(nameof(CloseDoor), openDelay);
+            }
+        }
+
+        // ----- CLOSE -----
+        if (isClosing)
+        {
+            MoveTo(startZ);
+
+            if (Reached(startZ))
+            {
+                isClosing = false;
+                isClosed = true;
+            }
+        }
+    }
+
+    void CloseDoor()
+    {
+        isOpen = false;
+        isClosing = true;
+    }
+
+    void MoveTo(float target)
+    {
         Vector3 pos = transform.position;
-        pos.z = Mathf.MoveTowards(pos.z, targetZ, moveSpeed * Time.deltaTime);
+        pos.z = Mathf.MoveTowards(pos.z, target, moveSpeed * Time.deltaTime);
         transform.position = pos;
+    }
 
-        // Stop when reached
-        if (Mathf.Abs(pos.z - targetZ) < 0.01f)
-            shouldMove = false;
+    bool Reached(float target)
+    {
+        return Mathf.Abs(transform.position.z - target) < 0.0001f;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("fantome")) {
+        if (other.CompareTag("fantome"))
             playerInside = true;
-        }
     }
 
     void OnTriggerExit(Collider other)

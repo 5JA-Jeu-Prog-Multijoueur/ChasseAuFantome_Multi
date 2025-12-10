@@ -12,12 +12,8 @@ public class JoueurFantome : MonoBehaviour
     public Transform mains;
 
     public GameObject toucheE;
-
-    public Animator HatchMur;
     // public Animator porte;
     public bool playerInside;
-    // public bool playerInsideDoor;
-    private Animator currentDoorAnimator;
 
     Rigidbody rb;
 
@@ -35,8 +31,6 @@ public class JoueurFantome : MonoBehaviour
         santeActuel = santeDepars;
         UpdateBarreVie();
         toucheE.SetActive(false);
-        Debug.Log(HatchMur);
-        // Debug.Log(porte);
     }
 
     void Update()
@@ -46,17 +40,6 @@ public class JoueurFantome : MonoBehaviour
 
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
-
-        if(Input.GetKeyDown(KeyCode.E) && playerInside) {
-
-            HatchMur.SetBool("ouvre", true);
-        }
-        
-        else if (Input.GetKeyDown(KeyCode.E) && currentDoorAnimator != null)
-        {
-            currentDoorAnimator.SetBool("ouvre", true);
-        }
-
 
         // void Update()
     {
@@ -121,8 +104,8 @@ public class JoueurFantome : MonoBehaviour
             toucheE.SetActive(true);
         }
 
-        else if (other.CompareTag("PorteA")){
-            currentDoorAnimator = other.GetComponent<Animator>();
+        else if (other.CompareTag("PorteA"))
+        {
             toucheE.SetActive(true);
         }
     }
@@ -137,7 +120,6 @@ public class JoueurFantome : MonoBehaviour
 
         if (other.CompareTag("PorteA"))
         {
-            currentDoorAnimator = null;
             toucheE.SetActive(false);
         }
     }
