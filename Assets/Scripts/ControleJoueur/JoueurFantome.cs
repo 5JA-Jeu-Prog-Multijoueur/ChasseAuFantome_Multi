@@ -121,8 +121,7 @@ public class JoueurFantome : MonoBehaviour
             toucheE.SetActive(true);
         }
 
-        else if (other.CompareTag("PorteA"))
-        {
+        else if (other.CompareTag("PorteA")){
             currentDoorAnimator = other.GetComponent<Animator>();
             toucheE.SetActive(true);
         }

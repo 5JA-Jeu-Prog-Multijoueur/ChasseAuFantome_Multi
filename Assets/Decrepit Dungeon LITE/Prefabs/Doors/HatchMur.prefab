@@ -21,7 +21,7 @@ GameObject:
   m_TagString: CachetteMur
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967294
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &7889167005484632755
 Transform:
@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationsPosition
   moveSpeed: 2
   animator: {fileID: 2303455207725128228}
+  playerInside: 0
 --- !u!114 &9123908135904851380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationsPosition
   moveSpeed: 2
   animator: {fileID: 0}
+  playerInside: 0
 --- !u!1 &7156564434637161523
 GameObject:
   m_ObjectHideFlags: 0
