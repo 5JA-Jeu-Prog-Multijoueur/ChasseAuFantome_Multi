@@ -488,6 +488,8 @@ MonoBehaviour:
   objetEnMain: 
   mains: {fileID: 0}
   toucheE: {fileID: 0}
+  HatchMur: {fileID: 2303455207725128228, guid: 62929651d83a64e6c840da2b73a9c83a, type: 3}
+  playerInside: 0
   santeDepars: 100
   santeActuel: 0
   niveauSante: {fileID: 1088083530703279334}

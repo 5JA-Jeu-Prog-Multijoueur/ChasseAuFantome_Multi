@@ -13,8 +13,11 @@ public class JoueurFantome : MonoBehaviour
 
     public GameObject toucheE;
 
-    private bool porteOuvert = false;
-    private bool insideBarrel = false;
+    public Animator HatchMur;
+    // public Animator porte;
+    public bool playerInside;
+    // public bool playerInsideDoor;
+    private Animator currentDoorAnimator;
 
     Rigidbody rb;
 
@@ -24,12 +27,16 @@ public class JoueurFantome : MonoBehaviour
     public Image niveauSante;
     public Transform cible;
 
+
     void Start()
     {
 
         rb = GetComponent<Rigidbody>();
         santeActuel = santeDepars;
         UpdateBarreVie();
+        toucheE.SetActive(false);
+        Debug.Log(HatchMur);
+        // Debug.Log(porte);
     }
 
     void Update()
@@ -40,6 +47,21 @@ public class JoueurFantome : MonoBehaviour
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
 
+        if(Input.GetKeyDown(KeyCode.E) && playerInside) {
+
+            HatchMur.SetBool("ouvre", true);
+        }
+        
+        else if (Input.GetKeyDown(KeyCode.E) && currentDoorAnimator != null)
+        {
+            currentDoorAnimator.SetBool("ouvre", true);
+        }
+
+
+        // void Update()
+    {
+   
+    }
     }
 
     void FixedUpdate()
@@ -94,93 +116,31 @@ public class JoueurFantome : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PorteArc") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("CachetteMur") || other.CompareTag("Barrel"))  
-        {
+        if(other.CompareTag("CachetteMur")) {
+            playerInside = true;
             toucheE.SetActive(true);
         }
 
-        else
+        else if (other.CompareTag("PorteA"))
         {
+            currentDoorAnimator = other.GetComponent<Animator>();
+            toucheE.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("CachetteMur") ||other.CompareTag("PorteA") ) {
+            playerInside = false;
+            // playerInsideDoor = false;
             toucheE.SetActive(false);
-            porteOuvert = false;
         }
-    }
 
-    void OnTriggerStay(Collider other) {
-        float ouvertPositionZ = 0.81f;
-        float fermerPositionZ = -0.93f;
-        float ouvertPositionY = -1.62f;
-        float fermerPositionY = -0.85f;
-        float vitessePosition = 1.2f;
-        float ouvertRotationY = -178f;
-        float fermerRotationY = -89.34f;
-        float vitesseRotation = 90f;
-
-        bool enMouvement = false;
-
-        if(other.CompareTag("CachetteMur") && Input.GetKeyDown(KeyCode.E))
+        if (other.CompareTag("PorteA"))
         {
-            enMouvement = true;
-            porteOuvert = !porteOuvert;
-            float cibleZ = porteOuvert ? ouvertPositionZ : fermerPositionZ;
-
-            if(enMouvement) {
-                Vector3 position = other.transform.position;
-                position.z = Mathf.MoveTowards(position.z, cibleZ, vitessePosition * Time.deltaTime);
-
-                if(position.z >= cibleZ) {
-                    enMouvement = false;
-                    porteOuvert = true; 
-                }
-            }
-        }
-
-        else if(other.CompareTag("PorteArc") && Input.GetKeyDown(KeyCode.E)) {
-            enMouvement = true;
-            porteOuvert = !porteOuvert;
-            float cibleY = porteOuvert ? ouvertPositionY : fermerPositionY;
-
-            if(enMouvement) {
-                Vector3 position = other.transform.position;
-                position.y = Mathf.MoveTowards(position.y, cibleY, vitessePosition * Time.deltaTime);
-
-                if(position.y >= cibleY) {
-                    enMouvement = false;
-                    porteOuvert = true; 
-                }
-            }
-        }
-
-        else if(other.CompareTag("PorteA") && Input.GetKeyDown(KeyCode.E)) {
-            enMouvement = true;
-            porteOuvert = !porteOuvert;
-            float cibleRotationY = porteOuvert ? ouvertRotationY : fermerRotationY;
-
-            if(enMouvement) {
-                Vector3 rotation = other.transform.eulerAngles;
-                rotation.y = Mathf.MoveTowardsAngle(rotation.y, cibleRotationY, vitesseRotation * Time.deltaTime);
-
-                if(Mathf.Abs(Mathf.DeltaAngle(rotation.y, cibleRotationY)) < 0.1f) {
-                    other.transform.eulerAngles = new Vector3(rotation.x, cibleRotationY, rotation.z);
-                    porteOuvert = true;
-                }
-            }
-        }
-
-        else if(other.CompareTag("Barrel") && Input.GetKeyDown(KeyCode.E) && !insideBarrel) {
-            Vector3 positionBarrel = other.transform.position;
-            gameObject.transform.position = positionBarrel;
-            insideBarrel = true;
-
-            if(insideBarrel && Input.GetKeyDown(KeyCode.E)) {
-            positionBarrel.z += 2;
-            gameObject.transform.position = positionBarrel;
-        }
+            currentDoorAnimator = null;
+            toucheE.SetActive(false);
         }
     }
 
-    void OnTriggerExit(Collider other) {
-        toucheE.SetActive(false);
-        porteOuvert = false;
-    }
 }
