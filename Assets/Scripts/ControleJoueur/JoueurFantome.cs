@@ -12,12 +12,8 @@ public class JoueurFantome : MonoBehaviour
     public Transform mains;
 
     public GameObject toucheE;
-
-    public Animator HatchMur;
     // public Animator porte;
     public bool playerInside;
-    // public bool playerInsideDoor;
-    private Animator currentDoorAnimator;
 
     Rigidbody rb;
 
@@ -35,8 +31,6 @@ public class JoueurFantome : MonoBehaviour
         santeActuel = santeDepars;
         UpdateBarreVie();
         toucheE.SetActive(false);
-        Debug.Log(HatchMur);
-        // Debug.Log(porte);
     }
 
     void Update()
@@ -46,17 +40,6 @@ public class JoueurFantome : MonoBehaviour
 
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
-
-        if(Input.GetKeyDown(KeyCode.E) && playerInside) {
-
-            HatchMur.SetBool("ouvre", true);
-        }
-        
-        else if (Input.GetKeyDown(KeyCode.E) && currentDoorAnimator != null)
-        {
-            currentDoorAnimator.SetBool("ouvre", true);
-        }
-
 
         // void Update()
     {
@@ -116,28 +99,21 @@ public class JoueurFantome : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("CachetteMur")) {
+        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
             playerInside = true;
-            toucheE.SetActive(true);
-        }
-
-        else if (other.CompareTag("PorteA")){
-            currentDoorAnimator = other.GetComponent<Animator>();
             toucheE.SetActive(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("CachetteMur") ||other.CompareTag("PorteA") ) {
+        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
             playerInside = false;
-            // playerInsideDoor = false;
             toucheE.SetActive(false);
         }
 
         if (other.CompareTag("PorteA"))
         {
-            currentDoorAnimator = null;
             toucheE.SetActive(false);
         }
     }
