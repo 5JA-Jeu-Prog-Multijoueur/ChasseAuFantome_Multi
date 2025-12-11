@@ -99,22 +99,16 @@ public class JoueurFantome : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("CachetteMur")) {
+        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
             playerInside = true;
-            toucheE.SetActive(true);
-        }
-
-        else if (other.CompareTag("PorteA"))
-        {
             toucheE.SetActive(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("CachetteMur") ||other.CompareTag("PorteA") ) {
+        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
             playerInside = false;
-            // playerInsideDoor = false;
             toucheE.SetActive(false);
         }
 

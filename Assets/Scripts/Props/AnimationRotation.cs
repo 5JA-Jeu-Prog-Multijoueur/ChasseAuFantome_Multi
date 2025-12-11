@@ -88,11 +88,13 @@ bool Reached(float target)
 }
 
 void OnTriggerEnter(Collider other) { 
+
     if (other.CompareTag("fantome")) 
         playerInside = true; 
     } 
 
 void OnTriggerExit(Collider other) { 
+    
     if (other.CompareTag("fantome")) 
         playerInside = false; 
     }
