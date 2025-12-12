@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraSuivi
   target: {fileID: 2490112670623116846}
-  distance: 25
+  distance: 5
   height: 2
   rotationSpeed: 5
   collisionMask:
@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 205988299585393856}
   - component: {fileID: 6886483338966085785}
   - component: {fileID: 142562974530026990}
+  - component: {fileID: -39896770728756225}
   m_Layer: 0
   m_Name: Fantome
   m_TagString: fantome
@@ -485,13 +486,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
   GlobalObjectIdHash: 2617061105
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 2617061105
   DeferredDespawnTick: 0
   Ownership: 8
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -520,6 +521,23 @@ MonoBehaviour:
   santeActuel: 0
   niveauSante: {fileID: 1088083530703279334}
   cible: {fileID: 0}
+--- !u!114 &-39896770728756225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566548843470565586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df0f2ab03e8371449f3696ba3d2ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  ShowTopMostFoldoutHeaderGroup: 1
+  ChasseurController: {fileID: 365956860120152964, guid: c411d522e232c884db7b280ab8f15031, type: 3}
+  FantomeController: {fileID: 142562974530026990}
+  role:
+    m_InternalValue: 1
 --- !u!1 &7591210798121968847
 GameObject:
   m_ObjectHideFlags: 0

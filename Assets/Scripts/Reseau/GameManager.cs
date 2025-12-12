@@ -6,12 +6,15 @@ using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
+using System.Data;
+using System.Globalization;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton { get; private set; }
    
-    public GameObject prefabJoueur;
+    public GameObject prefabChasseur;
+    public GameObject prefabFantome;
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
     private void Awake()
@@ -48,36 +51,79 @@ public class GameManager : NetworkBehaviour
     Si juste un client : c'est l'hôte... on affiche un panneau d'attente
     Si deux client : on lance la partie
     */
-    private void OnNouveauClientConnecte(ulong obj)
+    //private void OnNouveauClientConnecte(ulong obj)
+    //{
+    //  print("Un nouveau client est connecté, id : " + obj);
+    //Si pas le serveur, on affiche le panel d'attente côté client. 
+    //if (!IsServer)
+    //{
+    //  NavigationManager.singleton.AfficheAttenteClient();
+    //return;
+    //}
+
+    /* Si on est le serveur :
+    Si un seul client connecté (le serveur) on affiche la panel d'attente d'un second joueur
+    Si deux client connecté, on affiche le panel avec le bouton qui permet de lancer la partie
+    */
+    //if (NetworkManager.Singleton.ConnectedClients.Count == 1)
+    //{
+    //  NavigationManager.singleton.AfficheAttenteServeur();
+
+
+    //        }
+    //      /* Lancement de la partie à 3 joueurs ou plus */
+    //else if (NetworkManager.Singleton.ConnectedClients.Count >= 3)
+    //    else if (NetworkManager.Singleton.ConnectedClients.Count >= 2 &&
+    //NetworkManager.Singleton.ConnectedClients.Count <= 4)
+    //{
+    //  NavigationManager.singleton.AfficheBoutonLancerPartie();
+    //}
+
+    // Mise à jour du nombre de clients connectés
+    //  UpdatePlayerCount();
+    //}
+    private void OnNouveauClientConnecte(ulong clientId)
     {
-        print("Un nouveau client est connecté, id : " + obj);
-        //Si pas le serveur, on affiche le panel d'attente côté client. 
+        print("Un nouveau client est connecté, id : " + clientId);
+
+        // ============================================================
+        // 1) SI ON EST DU CÔTÉ CLIENT (PAS LE SERVEUR)
+        // ============================================================
         if (!IsServer)
         {
             NavigationManager.singleton.AfficheAttenteClient();
             return;
         }
 
-        /* Si on est le serveur :
-        Si un seul client connecté (le serveur) on affiche la panel d'attente d'un second joueur
-        Si deux client connecté, on affiche le panel avec le bouton qui permet de lancer la partie
-        */
+
+        // ============================================================
+        // 2) UI côté serveur
+        // ============================================================
         if (NetworkManager.Singleton.ConnectedClients.Count == 1)
         {
             NavigationManager.singleton.AfficheAttenteServeur();
-
         }
-        /* Lancement de la partie à 3 joueurs ou plus */
-        //else if (NetworkManager.Singleton.ConnectedClients.Count >= 3)
         else if (NetworkManager.Singleton.ConnectedClients.Count >= 2 &&
-         NetworkManager.Singleton.ConnectedClients.Count <= 4)
+                 NetworkManager.Singleton.ConnectedClients.Count <= 4)
         {
             NavigationManager.singleton.AfficheBoutonLancerPartie();
         }
 
-        // Mise à jour du nombre de clients connectés
+        // ============================================================
+        // 3) COMPTEUR DE JOUEURS
+        // ============================================================
         UpdatePlayerCount();
     }
+
+    public void LancerPartie()
+    {
+        if (!IsServer) return;
+
+
+        NetworkManager.Singleton.SceneManager.LoadScene("Jeu", LoadSceneMode.Single);
+    }
+
+
 
     // Mise à jour du nombre de joueurs connectés dans l'interface
     public void UpdatePlayerCount()
@@ -128,18 +174,76 @@ public class GameManager : NetworkBehaviour
     }
 
 
-    public void CreationJoueurs()
+    //public void CreationJoueurs()
+    //{
+    //    int nbJoueurs = NetworkManager.Singleton.ConnectedClients.Count;
+    //
+    //    foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+    //    {
+    //        // Instanciation d’un joueur pour chaque client
+    //        GameObject newPlayer = Instantiate(prefabFantome);
+    //
+    //        // Spawn avec ownership selon le client owner
+    //        newPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(client.ClientId);
+    //    }
+    //}
+
+    // Callback quand une scène est chargée
+    private void OnEnable()
     {
-        int nbJoueurs = NetworkManager.Singleton.ConnectedClients.Count;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (!IsServer) return;
+
+        if (scene.name == "Jeu")
         {
-            // Instanciation d’un joueur pour chaque client
-            GameObject newPlayer = Instantiate(prefabJoueur);
-
-            // Spawn avec ownership selon le client owner
-            newPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(client.ClientId);
+            SpawnJoueursDansScene();
+            DebutSimulation();
         }
     }
 
+    public void SpawnJoueursDansScene()
+    {
+        if (!IsServer)
+            return; // Seul le serveur spawn les joueurs
+
+        // Récupérer tous les clients connectés
+        var clients = NetworkManager.Singleton.ConnectedClientsList;
+
+        for (int i = 0; i < clients.Count; i++)
+        {
+            var client = clients[i];
+
+            // Choisir le prefab selon l’ordre de connexion
+            GameObject prefabToSpawn = (i == 0) ? prefabChasseur : prefabFantome;
+
+            // Instancier le joueur côté serveur
+            GameObject playerInstance = Instantiate(prefabToSpawn);
+
+            // Spawn réseau avec ownership du client
+            NetworkObject netObj = playerInstance.GetComponent<NetworkObject>();
+            netObj.SpawnAsPlayerObject(client.ClientId);
+
+            // Assigner le rôle sur le NetworkVariable
+            PlayerData pdata = playerInstance.GetComponent<PlayerData>();
+            pdata.role.Value = (prefabToSpawn == prefabChasseur)
+                               ? PlayerRole.Chasseur
+                               : PlayerRole.Fantome;
+
+            Debug.Log($"Spawned {pdata.role.Value} pour ClientId {client.ClientId}");
+        }
+    }
+
+
+
 }
+
+

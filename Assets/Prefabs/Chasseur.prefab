@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 6707382303701243593}
   - component: {fileID: 2626768163820757163}
   - component: {fileID: -1220590380577607241}
+  - component: {fileID: -826316860725198414}
   m_Layer: 0
   m_Name: Chasseur
   m_TagString: chasseur
@@ -624,7 +625,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4271422589166899634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2001dcdbdb2dfd409906b5aee02b96e, type: 3}
   m_Name: 
@@ -696,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2059771476
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -709,6 +710,23 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &-826316860725198414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271422589166899634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df0f2ab03e8371449f3696ba3d2ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  ShowTopMostFoldoutHeaderGroup: 1
+  ChasseurController: {fileID: 365956860120152964}
+  FantomeController: {fileID: 142562974530026990, guid: 8fcaa1971859f344fb2d1d2c3f082fca, type: 3}
+  role:
+    m_InternalValue: 1
 --- !u!1 &6286853546657175503
 GameObject:
   m_ObjectHideFlags: 0
