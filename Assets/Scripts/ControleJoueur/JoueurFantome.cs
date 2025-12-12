@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class JoueurFantome : MonoBehaviour
+public class JoueurFantome : NetworkBehaviour
 {
 
     public float vitesse;
@@ -35,6 +36,8 @@ public class JoueurFantome : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner) return;
+
         forceDeplacement  = Input.GetAxis("Vertical") * vitesse;
         forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 

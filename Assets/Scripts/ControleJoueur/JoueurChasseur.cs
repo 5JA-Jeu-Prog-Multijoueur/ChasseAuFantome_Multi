@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 
-public class JoueurChasseur : MonoBehaviour
+public class JoueurChasseur : NetworkBehaviour
 {
     public float vitesse;
     float forceDeplacement;
@@ -48,6 +49,8 @@ public class JoueurChasseur : MonoBehaviour
    
     void Update()
     {
+        if (!IsOwner) return;
+
         forceDeplacement  = Input.GetAxis("Vertical") * vitesse;
         forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 

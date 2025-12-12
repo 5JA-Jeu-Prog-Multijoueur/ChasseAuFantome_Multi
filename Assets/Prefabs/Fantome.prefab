@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 1247116417914189855}
   - component: {fileID: 1111768175527016652}
   - component: {fileID: 205988299585393856}
+  - component: {fileID: 6886483338966085785}
   - component: {fileID: 142562974530026990}
   m_Layer: 0
   m_Name: Fantome
@@ -358,8 +359,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -35.36, y: 6.96, z: -8.7}
-  m_LocalScale: {x: 6.6987557, y: 6.6987557, z: 6.6987557}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1456153894095224933}
   - {fileID: 4468779681499256303}
@@ -471,6 +472,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &6886483338966085785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566548843470565586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2617061105
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 8
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &142562974530026990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346e8169a306d5f40a4cc056b9dde64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JoueurFantome
+  ShowTopMostFoldoutHeaderGroup: 1
   vitesse: 20
   vitesseTourne: 6
   objetEnMain: 

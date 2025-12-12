@@ -11,8 +11,7 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton { get; private set; }
    
-    public GameObject chasseur;
-    public GameObject fantome;
+    public GameObject prefabJoueur;
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
     private void Awake()
@@ -21,9 +20,7 @@ public class GameManager : NetworkBehaviour
         {
             singleton = this;
             DontDestroyOnLoad(gameObject);
-            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoaded;
         }
-
         else
         {
             Destroy(gameObject);
@@ -41,11 +38,9 @@ public class GameManager : NetworkBehaviour
     // Désabonnement du callback OnClientConnectedCallback.
     public override void OnNetworkDespawn()
     {
-        base.OnNetworkDespawn();
+        base.OnNetworkSpawn();
 
         NetworkManager.Singleton.OnClientConnectedCallback -= OnNouveauClientConnecte;
-        // NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoaded;
-
     }
 
     /* Fonction qui sera appelée lors du callback OnClientConnectedCallback
@@ -132,33 +127,19 @@ public class GameManager : NetworkBehaviour
         OnDebutPartie?.Invoke();
     }
 
-    private void OnSceneLoaded(string sceneName, LoadSceneMode mode)
-{
-    if (!IsServer) return;        // only server spawns players
-    if (sceneName != "Jeu") return;
-
-    // Now the scene is ready → spawn players
-    CreationJoueurs();
-}
-
-
 
     public void CreationJoueurs()
     {
         int nbJoueurs = NetworkManager.Singleton.ConnectedClients.Count;
 
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-    {
-        GameObject prefabToSpawn;
+        {
+            // Instanciation d’un joueur pour chaque client
+            GameObject newPlayer = Instantiate(prefabJoueur);
 
-        if (client.ClientId == NetworkManager.ServerClientId)
-            prefabToSpawn = chasseur;
-        else
-            prefabToSpawn = fantome;
-
-        GameObject newPlayer = Instantiate(prefabToSpawn);
-        newPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(client.ClientId);
-    }
+            // Spawn avec ownership selon le client owner
+            newPlayer.GetComponent<NetworkObject>().SpawnWithOwnership(client.ClientId);
+        }
     }
 
 }
