@@ -487,8 +487,7 @@ MonoBehaviour:
   vitesseTourne: 6
   objetEnMain: 
   mains: {fileID: 0}
-  toucheE: {fileID: 0}
-  HatchMur: {fileID: 2303455207725128228, guid: 62929651d83a64e6c840da2b73a9c83a, type: 3}
+  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
   playerInside: 0
   santeDepars: 100
   santeActuel: 0
