@@ -77,6 +77,16 @@ public class JoueurChasseur : NetworkBehaviour
         {
             ToggleLampeServerRpc();
         }
+
+        if (GetComponent<Rigidbody>().linearVelocity.magnitude > 0)
+        {
+            GetComponent<Animator>().SetBool("Marche", true);
+        }
+
+        else
+        {
+            GetComponent<Animator>().SetBool("Marche", false);
+        }
     }
 
     // =====================================================
