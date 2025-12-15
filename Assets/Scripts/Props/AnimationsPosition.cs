@@ -1,20 +1,25 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class AnimationsPosition : MonoBehaviour
+public class AnimationsPosition : NetworkBehaviour
 {
     public float moveSpeed = 2f;
     public float moveAmount = 2f;
     public float openDelay = 2f;
 
-    public bool isOpening;
-    public bool isClosing;
-    public bool isOpen;
-    public bool isClosed = true;
+    public NetworkVariable<bool> isOpening = new(false);
+    public NetworkVariable<bool> isClosing = new(false);
+    public NetworkVariable<bool> isOpen = new(false);
+    public NetworkVariable<bool> isClosed = new(true);
 
     public bool playerInside;
 
     private float startZ;
     private float targetZ;
+
+    // Gestion sons
+    public AudioSource audioSource;
+    public AudioClip doorClip;
 
     void Start()
     {
@@ -25,41 +30,60 @@ public class AnimationsPosition : MonoBehaviour
     void Update()
     {
         // ----- OPEN -----
-        if (playerInside && Input.GetKeyDown(KeyCode.E) && isClosed)
+        if (playerInside && Input.GetKeyDown(KeyCode.E) && isClosed.Value && !isOpening.Value)
         {
-            isOpening = true;
-            isClosed = false;
+            OpenDoorServerRpc();
         }
 
-        if (isOpening)
+        if (IsServer && isOpening.Value)
         {
             MoveTo(targetZ);
 
             if (Reached(targetZ))
             {
-                isOpening = false;
-                isOpen = true;
+                isOpening.Value = false;
+                isOpen.Value = true;
                 Invoke(nameof(CloseDoor), openDelay);
             }
         }
 
         // ----- CLOSE -----
-        if (isClosing)
+        if (IsServer && isClosing.Value)
         {
             MoveTo(startZ);
 
             if (Reached(startZ))
             {
-                isClosing = false;
-                isClosed = true;
+                isClosing.Value = false;
+                isClosed.Value = true;
             }
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void OpenDoorServerRpc()
+    {
+        if (!isClosed.Value) return;
+
+        isOpening.Value = true;
+        isClosed.Value = false;
+
+        PlayDoorSoundClientRpc();
+    }
+
+    [ClientRpc]
+    void PlayDoorSoundClientRpc()
+    {
+        if (audioSource && doorClip)
+        {
+            audioSource.PlayOneShot(doorClip);
         }
     }
 
     void CloseDoor()
     {
-        isOpen = false;
-        isClosing = true;
+        isOpen.Value = false;
+        isClosing.Value = true;
     }
 
     void MoveTo(float target)
