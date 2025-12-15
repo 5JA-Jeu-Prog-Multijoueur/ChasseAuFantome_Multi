@@ -1,120 +1,163 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
 using Unity.Netcode;
-
 
 public class JoueurChasseur : NetworkBehaviour
 {
-    public float vitesse;
+    [Header("Déplacement")]
+    public float vitesse = 5f;
+    public float vitesseTourne = 3f;
+
     float forceDeplacement;
     float forceDeplacementH;
-    public float vitesseTourne;
-    public string objetEnMain;
-    public Transform mains;
 
     Rigidbody rb;
-    //Animator animator;
 
-    public float tempsActuel; // Variable de gestion du temps
-    public float tempsDepars;
+    [Header("Temps")]
+    public float tempsDepars = 120f;
     public Image niveauTemps;
 
-    public GameObject CanvasFin; // Variable du canvas affichant le score
+    private NetworkVariable<float> tempsActuel =
+        new NetworkVariable<float>(
+            120f,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
 
+    [Header("Fin de partie")]
+    public GameObject CanvasFin;
 
-    // FLASHLIGHT
+    [Header("Lampe")]
     public Light spotLight;
-    private bool isOn = false; // État actuel
+    public float rayDistance = 20f;
+    public LayerMask hitLayers;
 
-    public float rayDistance = 20f; // Distance maximale du faisceau
-    public LayerMask hitLayers; // Ce que la lampe peur voir
+    private NetworkVariable<bool> lampeAllumee =
+        new NetworkVariable<bool>(
+            false,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
 
-    void Start()
+    // =====================================================
+    // INIT RÉSEAU
+    // =====================================================
+    public override void OnNetworkSpawn()
     {
         rb = GetComponent<Rigidbody>();
-        //animator = GetComponent<Animator>();
-        Cursor.lockState = CursorLockMode.Locked; // Permet de ne plus voir le curseur
 
-        if (spotLight != null)
+        if (!IsOwner)
         {
-            spotLight.enabled = false; // Commence éteinte
+            if (spotLight) spotLight.enabled = false;
+            return;
         }
-         
 
+        Cursor.lockState = CursorLockMode.Locked;
+
+        lampeAllumee.OnValueChanged += OnLampeChange;
+        tempsActuel.OnValueChanged += OnTempsChange;
+
+        UpdateUI();
     }
-   
+
+    // =====================================================
+    // INPUT LOCAL
+    // =====================================================
     void Update()
     {
         if (!IsOwner) return;
 
-        forceDeplacement  = Input.GetAxis("Vertical") * vitesse;
+        forceDeplacement = Input.GetAxis("Vertical") * vitesse;
         forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
 
-        
-        // Si le joueur appuie sur la touche F, il allume la flashlight ( toggle)
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            isOn = !isOn;
-            spotLight.enabled = isOn;
+            ToggleLampeServerRpc();
         }
-
-        if(isOn)
-        {
-            // Le raycast s'active
-            DoRaycast();
-        }
-
     }
 
+    // =====================================================
+    // PHYSIQUE
+    // =====================================================
     void FixedUpdate()
     {
-        // Gestion du temps
-        if (tempsActuel > 0)
-            tempsActuel -= Time.deltaTime;
+        if (!IsOwner) return;
 
-        // Déplacement sans glissement
-        Vector3 move = (transform.forward * forceDeplacement) 
-                    + (transform.right * forceDeplacementH);
+        Vector3 move = (transform.forward * forceDeplacement)
+                     + (transform.right * forceDeplacementH);
 
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-    
     }
 
+    // =====================================================
+    // LAMPE TORCHE
+    // =====================================================
+    [ServerRpc]
+    void ToggleLampeServerRpc()
+    {
+        lampeAllumee.Value = !lampeAllumee.Value;
+    }
 
+    void OnLampeChange(bool oldValue, bool newValue)
+    {
+        if (spotLight)
+            spotLight.enabled = newValue;
+
+        if (newValue)
+            DoRaycast();
+    }
+
+    // =====================================================
+    // RAYCAST SERVEUR
+    // =====================================================
     void DoRaycast()
     {
-        RaycastHit hit;
-
-        // Ligne rouge = direction du rayon
-        Debug.DrawRay(spotLight.transform.position,
-                    spotLight.transform.forward * rayDistance,
-                    Color.red);
+        if (!IsServer) return;
 
         if (Physics.Raycast(spotLight.transform.position,
                             spotLight.transform.forward,
-                            out hit,
+                            out RaycastHit hit,
                             rayDistance,
                             hitLayers))
         {
-            Debug.DrawLine(spotLight.transform.position, hit.point, Color.yellow);
-
             if (hit.collider.CompareTag("fantome"))
             {
-                JoueurFantome fantome = hit.collider.GetComponentInParent<JoueurFantome>();
+                JoueurFantome fantome =
+                    hit.collider.GetComponentInParent<JoueurFantome>();
 
                 if (fantome != null)
                 {
-                    print("Le fantome perd sa vie");
-                    fantome.PrendreDegats(20f);
+                    fantome.PrendreDegatsServerRpc(20f);
                 }
             }
         }
+    }
+
+    // =====================================================
+    // TEMPS
+    // =====================================================
+    void OnTempsChange(float oldValue, float newValue)
+    {
+        UpdateUI();
+
+        if (newValue <= 0)
+        {
+            FinDePartie();
+        }
+    }
+
+    void UpdateUI()
+    {
+        if (niveauTemps)
+            niveauTemps.fillAmount = tempsActuel.Value / tempsDepars;
+    }
+
+    void FinDePartie()
+    {
+        if (CanvasFin)
+            CanvasFin.SetActive(true);
     }
 }

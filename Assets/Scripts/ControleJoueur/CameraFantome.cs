@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class CameraSuivi : MonoBehaviour
+public class CameraFantome : MonoBehaviour
 {
     public Transform target;
-    public float distance = 5.0f;
+    public float distance = 1.0f;
     public float height = 2.0f;
     public float rotationSpeed = 5.0f;
     public LayerMask collisionMask;
@@ -12,6 +12,7 @@ public class CameraSuivi : MonoBehaviour
 
     void Update()
     {
+
         float horizontalInput = Input.GetAxis("Mouse X");
         float newAngle = currentAngle + horizontalInput * rotationSpeed;
 

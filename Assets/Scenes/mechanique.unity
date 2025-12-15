@@ -1446,6 +1446,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fantome
       objectReference: {fileID: 0}
+    - target: {fileID: 6566548843470565586, guid: 8fcaa1971859f344fb2d1d2c3f082fca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

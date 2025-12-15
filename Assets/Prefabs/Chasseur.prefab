@@ -487,6 +487,8 @@ GameObject:
   - component: {fileID: 365956860120152964}
   - component: {fileID: 6707382303701243593}
   - component: {fileID: 2626768163820757163}
+  - component: {fileID: -1220590380577607241}
+  - component: {fileID: -826316860725198414}
   m_Layer: 0
   m_Name: Chasseur
   m_TagString: chasseur
@@ -604,13 +606,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
   GlobalObjectIdHash: 394144310
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 394144310
   DeferredDespawnTick: 0
   Ownership: 8
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -631,9 +633,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   vitesse: 25
   vitesseTourne: 6
-  objetEnMain: 
-  mains: {fileID: 0}
-  tempsActuel: 0
   tempsDepars: 0
   niveauTemps: {fileID: 0}
   CanvasFin: {fileID: 0}
@@ -683,6 +682,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GestionTemps
   tempsDepars: 60
   affichageCompteur: {fileID: 8749581411695130800}
+--- !u!114 &-1220590380577607241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271422589166899634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2059771476
+  InScenePlacedSourceGlobalObjectIdHash: 394144310
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &-826316860725198414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4271422589166899634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df0f2ab03e8371449f3696ba3d2ef16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  ShowTopMostFoldoutHeaderGroup: 1
+  ChasseurController: {fileID: 365956860120152964}
+  FantomeController: {fileID: 142562974530026990, guid: 8fcaa1971859f344fb2d1d2c3f082fca, type: 3}
+  role:
+    m_InternalValue: 1
 --- !u!1 &6286853546657175503
 GameObject:
   m_ObjectHideFlags: 0
