@@ -4,105 +4,125 @@ using Unity.Netcode;
 
 public class JoueurFantome : NetworkBehaviour
 {
+    [Header("Déplacement")]
+    public float vitesse = 5f;
+    public float vitesseTourne = 3f;
 
-    public float vitesse;
     float forceDeplacement;
     float forceDeplacementH;
-    public float vitesseTourne;
-    public string objetEnMain;
-    public Transform mains;
-
-    public GameObject toucheE;
-    // public Animator porte;
-    public bool playerInside;
 
     Rigidbody rb;
 
-
+    [Header("Santé")]
     public float santeDepars = 100f;
-    public float santeActuel;
     public Image niveauSante;
     public Transform cible;
 
+    private NetworkVariable<float> santeActuel =
+        new NetworkVariable<float>(
+            100f,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server
+        );
 
-    void Start()
+    [Header("Interaction")]
+    public GameObject toucheE;
+    public bool playerInside;
+
+    // =====================================================
+    // INITIALISATION RÉSEAU
+    // =====================================================
+    public override void OnNetworkSpawn()
     {
-
         rb = GetComponent<Rigidbody>();
-        santeActuel = santeDepars;
+
+        // 🔹 UI uniquement pour le joueur local
+        if (!IsOwner)
+        {
+            if (toucheE) toucheE.SetActive(false);
+            if (niveauSante) niveauSante.gameObject.SetActive(false);
+            return;
+        }
+
+        santeActuel.OnValueChanged += OnSanteChange;
         UpdateBarreVie();
-        toucheE.SetActive(false);
     }
 
+    // =====================================================
+    // INPUT JOUEUR LOCAL
+    // =====================================================
     void Update()
     {
         if (!IsOwner) return;
 
-        forceDeplacement  = Input.GetAxis("Vertical") * vitesse;
+        forceDeplacement = Input.GetAxis("Vertical") * vitesse;
         forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
-
-        // void Update()
-    {
-   
-    }
     }
 
+    // =====================================================
+    // PHYSIQUE (SEULEMENT OWNER)
+    // =====================================================
     void FixedUpdate()
     {
+        if (!IsOwner) return;
 
-        // Déplacement sans glissement
-        Vector3 move = (transform.forward * forceDeplacement) 
-                    + (transform.right * forceDeplacementH);
+        Vector3 move = (transform.forward * forceDeplacement)
+                     + (transform.right * forceDeplacementH);
 
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-    
     }
 
-    public void PrendreDegats(float degats)
+    // =====================================================
+    // DÉGÂTS (SERVEUR AUTORITAIRE)
+    // =====================================================
+    [ServerRpc]
+    public void PrendreDegatsServerRpc(float degats)
     {
-        // Regarde vers le joueur (optionnel)
-        if (cible != null)
-            transform.LookAt(cible);
+        santeActuel.Value -= degats;
 
-        // Enlève les dégâts
-        santeActuel -= degats;
+        if (santeActuel.Value < 0)
+            santeActuel.Value = 0;
 
-        // Empêche les valeurs négatives
-        if (santeActuel < 0)
-            santeActuel = 0;
-
-        // Mets à jour la barre
-        UpdateBarreVie();
-
-        // Le joueur est mort
-        if (santeActuel == 0)
+        if (santeActuel.Value == 0)
         {
             FantomeMort();
         }
     }
 
+    void OnSanteChange(float oldValue, float newValue)
+    {
+        UpdateBarreVie();
+    }
+
     void UpdateBarreVie()
     {
-        niveauSante.fillAmount = santeActuel / santeDepars;
+        if (niveauSante)
+            niveauSante.fillAmount = santeActuel.Value / santeDepars;
     }
 
     void FantomeMort()
     {
         Debug.Log("Fantôme mort !");
-        
-        // Empêche le raycast de le toucher encore
+
         foreach (Collider col in GetComponentsInChildren<Collider>())
             col.enabled = false;
-
-        // Tu peux rajouter une animation, disparition, etc.
     }
 
+    // =====================================================
+    // TRIGGERS (LOCAL PLAYER)
+    // =====================================================
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
+        if (!IsOwner) return;
+
+        if (other.CompareTag("CachetteMur") ||
+            other.CompareTag("PorteA") ||
+            other.CompareTag("PorteB") ||
+            other.CompareTag("PorteArc"))
+        {
             playerInside = true;
             toucheE.SetActive(true);
         }
@@ -110,15 +130,15 @@ public class JoueurFantome : NetworkBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("CachetteMur") || other.CompareTag("PorteA") || other.CompareTag("PorteB") || other.CompareTag("PorteArc")) {
+        if (!IsOwner) return;
+
+        if (other.CompareTag("CachetteMur") ||
+            other.CompareTag("PorteA") ||
+            other.CompareTag("PorteB") ||
+            other.CompareTag("PorteArc"))
+        {
             playerInside = false;
             toucheE.SetActive(false);
         }
-
-        if (other.CompareTag("PorteA"))
-        {
-            toucheE.SetActive(false);
-        }
     }
-
 }

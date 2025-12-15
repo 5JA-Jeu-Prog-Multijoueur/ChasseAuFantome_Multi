@@ -12,6 +12,7 @@ public class CameraFantome : MonoBehaviour
 
     void Update()
     {
+
         float horizontalInput = Input.GetAxis("Mouse X");
         float newAngle = currentAngle + horizontalInput * rotationSpeed;
 

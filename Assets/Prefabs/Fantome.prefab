@@ -513,14 +513,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   vitesse: 20
   vitesseTourne: 6
-  objetEnMain: 
-  mains: {fileID: 0}
-  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
-  playerInside: 0
   santeDepars: 100
-  santeActuel: 0
   niveauSante: {fileID: 1088083530703279334}
   cible: {fileID: 0}
+  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
+  playerInside: 0
 --- !u!114 &-39896770728756225
 MonoBehaviour:
   m_ObjectHideFlags: 0
