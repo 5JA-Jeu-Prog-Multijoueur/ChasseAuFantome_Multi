@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class PlayerData : NetworkBehaviour
 {
-    [Header("Contrôleurs")]
+    [Header("Visuels (enfants du prefab joueur)")]
+    [SerializeField] private GameObject chasseurRoot;
+    [SerializeField] private GameObject fantomeRoot;
+
+    [Header("Contrôleurs (scripts)")]
     [SerializeField] private JoueurChasseur chasseurController;
     [SerializeField] private JoueurFantome fantomeController;
 
@@ -17,25 +21,21 @@ public class PlayerData : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Sécurité
-        if (chasseurController == null || fantomeController == null)
-        {
-            Debug.LogError("PlayerData : contrôleurs non assignés !");
-            return;
-        }
+        // Sécurité : tout désactiver au départ (visuel + contrôle)
+        chasseurRoot.SetActive(false);
+        fantomeRoot.SetActive(false);
 
-        // Toujours désactiver par défaut
         chasseurController.enabled = false;
         fantomeController.enabled = false;
 
-        // S'abonner AVANT logique
+        // S'abonner AVANT d'appliquer la logique
         role.OnValueChanged += OnRoleChanged;
 
-        // Appliquer état initial
+        // ESSENTIEL : appliquer l'état ACTUEL (même si la valeur n'a pas changé)
         AppliquerRole(role.Value);
 
         Debug.Log(
-            $"PlayerData spawn | Owner={IsOwner} | Role={role.Value} | ClientId={OwnerClientId}"
+            $"[PlayerData] Spawn | Owner={IsOwner} | Role={role.Value} | ClientId={OwnerClientId}"
         );
     }
 
@@ -51,7 +51,11 @@ public class PlayerData : NetworkBehaviour
 
     private void AppliquerRole(PlayerRole roleActuel)
     {
-        // Seul l'owner peut contrôler
+        //  VISUEL : visible pour TOUT LE MONDE
+        chasseurRoot.SetActive(roleActuel == PlayerRole.Chasseur);
+        fantomeRoot.SetActive(roleActuel == PlayerRole.Fantome);
+
+        //  CONTRÔLE : seulement pour l'owner
         if (!IsOwner)
         {
             chasseurController.enabled = false;

@@ -144,7 +144,9 @@ public class GameManager : NetworkBehaviour
 
         if (scene.name == "Jeu")
         {
+            // Spawn tous les joueurs via GameManager
             SpawnJoueursDansScene();
+
             DebutSimulation();
         }
     }
@@ -154,33 +156,37 @@ public class GameManager : NetworkBehaviour
     // =====================================================
     private void SpawnJoueursDansScene()
     {
-        if (!IsServer) return;
-
         var clients = NetworkManager.Singleton.ConnectedClientsList;
 
         for (int i = 0; i < clients.Count; i++)
         {
             var client = clients[i];
 
-            // Vérifie qu’un player object n’existe pas déjà pour ce client
+            // Vérifie qu’un player object n’existe pas déjà
             if (NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(client.ClientId) != null)
                 continue;
 
-            // Instancie le PlayerRoot unique
-            GameObject player = Instantiate(prefabJoueurParDefaut);
-            NetworkObject netObj = player.GetComponent<NetworkObject>();
+            // ⚡ Déterminer la position de spawn AVANT l'instanciation
+            Vector3 spawnPos = Vector3.zero;
+            Quaternion spawnRot = Quaternion.identity;
 
-            // Spawn en tant que PlayerObject pour ce client
+            if (Spawner.singleton != null && Spawner.singleton.spawnPoints.Length > i)
+            {
+                spawnPos = Spawner.singleton.spawnPoints[i].position;
+                spawnRot = Spawner.singleton.spawnPoints[i].rotation;
+            }
+
+            // Instancie le prefab joueur
+            GameObject player = Instantiate(prefabJoueurParDefaut, spawnPos, spawnRot);
+
+            NetworkObject netObj = player.GetComponent<NetworkObject>();
             netObj.SpawnAsPlayerObject(client.ClientId, true);
 
-            // Récupère PlayerData pour assigner le rôle
+            // Assignation du rôle
             PlayerData pdata = player.GetComponent<PlayerData>();
+            pdata.role.Value = (i == 0) ? PlayerRole.Chasseur : PlayerRole.Fantome;
 
-            // Premier client connecté = Chasseur, les autres = Fantôme
-            bool estChasseur = (i == 0);
-            pdata.role.Value = estChasseur ? PlayerRole.Chasseur : PlayerRole.Fantome;
-
-            Debug.Log($"Spawn {pdata.role.Value} pour Client {client.ClientId}");
+            Debug.Log($"Spawn Player {client.ClientId} as {pdata.role.Value} at {spawnPos}");
         }
     }
 
