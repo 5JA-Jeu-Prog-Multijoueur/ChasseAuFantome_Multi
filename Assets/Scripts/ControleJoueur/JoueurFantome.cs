@@ -5,13 +5,13 @@ using Unity.Netcode;
 public class JoueurFantome : NetworkBehaviour
 {
     [Header("Déplacement")]
-    public float vitesse = 5f;
-    public float vitesseTourne = 3f;
+    // public float vitesse = 5f;
+    // public float vitesseTourne = 3f;
 
-    float forceDeplacement;
-    float forceDeplacementH;
+    // float forceDeplacement;
+    // float forceDeplacementH;
 
-    Rigidbody rb;
+    // Rigidbody rb;
 
     [Header("Santé")]
     public float santeDepars = 100f;
@@ -34,15 +34,27 @@ public class JoueurFantome : NetworkBehaviour
     // =====================================================
     public override void OnNetworkSpawn()
     {
-        rb = GetComponent<Rigidbody>();
+        // rb = GetComponent<Rigidbody>();
 
         // 🔹 UI uniquement pour le joueur local
         if (!IsOwner)
         {
             if (toucheE) toucheE.SetActive(false);
             if (niveauSante) niveauSante.gameObject.SetActive(false);
+
+            // Disable camera + audio
+            Camera cam = GetComponentInChildren<Camera>();
+            if (cam != null) cam.enabled = false;
+
+            AudioListener audio = GetComponentInChildren<AudioListener>();
+            if (audio != null) audio.enabled = false;
             return;
         }
+
+        // Owner-only setup
+        Camera camOwner = GetComponentInChildren<Camera>();
+        if (camOwner != null)
+        camOwner.enabled = true;
 
         santeActuel.OnValueChanged += OnSanteChange;
         UpdateBarreVie();
@@ -53,13 +65,13 @@ public class JoueurFantome : NetworkBehaviour
     // =====================================================
     void Update()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
 
-        forceDeplacement = Input.GetAxis("Vertical") * vitesse;
-        forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
+        // forceDeplacement = Input.GetAxis("Vertical") * vitesse;
+        // forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 
-        float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
-        transform.Rotate(0f, valeurTourne, 0f);
+        // float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
+        // transform.Rotate(0f, valeurTourne, 0f);
     }
 
     // =====================================================
@@ -67,12 +79,12 @@ public class JoueurFantome : NetworkBehaviour
     // =====================================================
     void FixedUpdate()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
 
-        Vector3 move = (transform.forward * forceDeplacement)
-                     + (transform.right * forceDeplacementH);
+        // Vector3 move = (transform.forward * forceDeplacement)
+        //              + (transform.right * forceDeplacementH);
 
-        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+        // rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 
     // =====================================================

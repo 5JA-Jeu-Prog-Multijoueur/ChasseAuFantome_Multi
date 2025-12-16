@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 4357453377610832963}
   - component: {fileID: 7461971303674661043}
   - component: {fileID: 8496954790139385446}
+  - component: {fileID: 6309473894059676524}
+  - component: {fileID: 5352337465812352546}
+  - component: {fileID: -3237330699868316328}
   m_Layer: 0
   m_Name: JoueurParDefaut
   m_TagString: Untagged
@@ -74,10 +77,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   ShowTopMostFoldoutHeaderGroup: 1
-  chasseurRoot: {fileID: 0}
-  fantomeRoot: {fileID: 0}
-  chasseurController: {fileID: 0}
-  fantomeController: {fileID: 0}
+  chasseurRoot: {fileID: 5074390731140720278, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+  fantomeRoot: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
+  chasseurController: {fileID: 7911633549731705964, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+  fantomeController: {fileID: 312437366400657055, guid: 341b7216555744507b920916460a37ba, type: 3}
   role:
     m_InternalValue: 1
 --- !u!114 &8496954790139385446
@@ -126,6 +129,65 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!54 &6309473894059676524
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6248755261762209665}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &5352337465812352546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6248755261762209665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 1
+  AutoUpdateKinematicState: 0
+  AutoSetKinematicOnDespawn: 0
+--- !u!114 &-3237330699868316328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6248755261762209665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c98555d361642ef8cbffe5cd1ec08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JoueursDeplacement
+  ShowTopMostFoldoutHeaderGroup: 1
+  vitesse: 5
+  vitesseTourne: 3
 --- !u!1001 &6380366362202812495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -178,6 +240,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chasseur(Vrai)
       objectReference: {fileID: 0}
+    - target: {fileID: 5074390731140720278, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2629877808157293729, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
     - {fileID: 695657832861622361, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
@@ -198,9 +264,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2984471984699103789}
     m_Modifications:
+    - target: {fileID: 5655692120945411982, guid: 341b7216555744507b920916460a37ba, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3355868028
+      objectReference: {fileID: 0}
     - target: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_Name
       value: Fantome(Vrai)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_TagString
@@ -311,8 +385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JoueurFantome
   ShowTopMostFoldoutHeaderGroup: 1
-  vitesse: 20
-  vitesseTourne: 6
   santeDepars: 100
   niveauSante: {fileID: 8444664124950028667}
   cible: {fileID: 0}
