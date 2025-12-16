@@ -156,38 +156,43 @@ public class GameManager : NetworkBehaviour
     // =====================================================
     private void SpawnJoueursDansScene()
     {
-        var clients = NetworkManager.Singleton.ConnectedClientsList;
+        if (!IsServer) return;
 
-        for (int i = 0; i < clients.Count; i++)
+    var clients = NetworkManager.Singleton.ConnectedClientsList;
+
+    for (int i = 0; i < clients.Count; i++)
+    {
+        ulong clientId = clients[i].ClientId;
+
+        // Récupère le PlayerObject EXISTANT
+        NetworkObject playerNetObj =
+            NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+
+        if (playerNetObj == null)
+            continue;
+
+        // Déterminer la position de spawn
+        Vector3 spawnPos = Vector3.zero;
+        Quaternion spawnRot = Quaternion.identity;
+
+        if (Spawner.singleton != null && Spawner.singleton.spawnPoints.Length > 0)
         {
-            var client = clients[i];
-
-            // Vérifie qu’un player object n’existe pas déjà
-            if (NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(client.ClientId) != null)
-                continue;
-
-            // ⚡ Déterminer la position de spawn AVANT l'instanciation
-            Vector3 spawnPos = Vector3.zero;
-            Quaternion spawnRot = Quaternion.identity;
-
-            if (Spawner.singleton != null && Spawner.singleton.spawnPoints.Length > i)
-            {
-                spawnPos = Spawner.singleton.spawnPoints[i].position;
-                spawnRot = Spawner.singleton.spawnPoints[i].rotation;
-            }
-
-            // Instancie le prefab joueur
-            GameObject player = Instantiate(prefabJoueurParDefaut, spawnPos, spawnRot);
-
-            NetworkObject netObj = player.GetComponent<NetworkObject>();
-            netObj.SpawnAsPlayerObject(client.ClientId, true);
-
-            // Assignation du rôle
-            PlayerData pdata = player.GetComponent<PlayerData>();
-            pdata.role.Value = (i == 0) ? PlayerRole.Chasseur : PlayerRole.Fantome;
-
-            Debug.Log($"Spawn Player {client.ClientId} as {pdata.role.Value} at {spawnPos}");
+            int index = i % Spawner.singleton.spawnPoints.Length;
+            spawnPos = Spawner.singleton.spawnPoints[index].position;
+            spawnRot = Spawner.singleton.spawnPoints[index].rotation;
         }
+
+        // Repositionnement (server authoritative)
+        playerNetObj.transform.SetPositionAndRotation(spawnPos, spawnRot);
+
+        // Assignation du rôle (server only)
+        PlayerData pdata = playerNetObj.GetComponent<PlayerData>();
+        pdata.role.Value = (i == 0) ? PlayerRole.Chasseur : PlayerRole.Fantome;
+
+        Debug.Log(
+            $"Move Player {clientId} as {pdata.role.Value} to {spawnPos}"
+        );
+    }
     }
 
     // =====================================================
