@@ -171,8 +171,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 1
-  AutoUpdateKinematicState: 0
-  AutoSetKinematicOnDespawn: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!114 &-3237330699868316328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +326,7 @@ PrefabInstance:
     - {fileID: 5337976941574404507, guid: 341b7216555744507b920916460a37ba, type: 3}
     - {fileID: 6071610773003799180, guid: 341b7216555744507b920916460a37ba, type: 3}
     - {fileID: 2973704820656072111, guid: 341b7216555744507b920916460a37ba, type: 3}
+    - {fileID: 312437366400657055, guid: 341b7216555744507b920916460a37ba, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
