@@ -19,7 +19,8 @@ public class LockerNetwork : NetworkBehaviour
     private NetworkVariable<bool> isAnimating =
         new NetworkVariable<bool>(false);
 
-    [SerializeField] private float animationDuration = 4.0f;
+    [SerializeField] private float openDuration = 1f;
+    [SerializeField] private float closeDuration = 1.5f;
         private Coroutine unlockCoroutine;
 
 
@@ -36,7 +37,8 @@ public class LockerNetwork : NetworkBehaviour
 
         if (playerNearby &&
             Input.GetKeyDown(KeyCode.F) &&
-            Time.time - lastInteractTime > interactCooldown)
+            Time.time - lastInteractTime > interactCooldown &&
+            !isAnimating.Value)
         {
             Debug.Log("F PRESSED");
             lastInteractTime = Time.time;
@@ -53,17 +55,20 @@ public class LockerNetwork : NetworkBehaviour
             return;
 
         isAnimating.Value = true;
-        isOpen.Value = !isOpen.Value;
+
+        bool opening = !isOpen.Value;
+        isOpen.Value = opening;
 
         if (unlockCoroutine != null)
             StopCoroutine(unlockCoroutine);
 
-        unlockCoroutine = StartCoroutine(UnlockAfterDelay());
+        float duration = opening ? openDuration : closeDuration;
+        unlockCoroutine = StartCoroutine(UnlockAfterDelay(duration));
     }
 
-    IEnumerator UnlockAfterDelay()
+    IEnumerator UnlockAfterDelay(float duration)
     {
-        yield return new WaitForSeconds(animationDuration);
+        yield return new WaitForSeconds(duration);
         isAnimating.Value = false;
     }
 
@@ -87,10 +92,7 @@ public class LockerNetwork : NetworkBehaviour
     void OnLockerStateChanged(bool oldValue, bool newValue)
     {
         if (doorAnimator)
-        {
-            doorAnimator.Play(doorAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0f);
             doorAnimator.SetBool("ouvrir", newValue);
-        }
 
         if (!IsClient) return;
 
