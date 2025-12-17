@@ -80,6 +80,7 @@ public class JoueurFantome : NetworkBehaviour
     [ServerRpc]
     public void PrendreDegatsServerRpc(float degats)
     {
+        Debug.Log("Fantome perd du dégat");
         santeActuel.Value -= degats;
 
         if (santeActuel.Value < 0)

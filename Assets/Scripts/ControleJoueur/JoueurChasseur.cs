@@ -126,6 +126,7 @@ public class JoueurChasseur : NetworkBehaviour
     void DoRaycast()
     {
         if (!IsServer) return;
+       
 
         if (Physics.Raycast(spotLight.transform.position,
                             spotLight.transform.forward,
@@ -135,11 +136,13 @@ public class JoueurChasseur : NetworkBehaviour
         {
             if (hit.collider.CompareTag("fantome"))
             {
+               
                 JoueurFantome fantome =
                     hit.collider.GetComponentInParent<JoueurFantome>();
 
                 if (fantome != null)
                 {
+                    Debug.Log("Fantome touché");
                     fantome.PrendreDegatsServerRpc(20f);
                 }
             }
