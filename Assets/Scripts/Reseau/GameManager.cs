@@ -180,12 +180,13 @@ public class GameManager : NetworkBehaviour
             GameObject player = Instantiate(prefabJoueurParDefaut, spawnPos, spawnRot);
             NetworkObject netObj = player.GetComponent<NetworkObject>();
 
+            // Spawn réseau — give ownership to the connected client
+            netObj.SpawnWithOwnership(clientId);
+            // netObj.SpawnAsPlayerObject(clientId, true);
+
             // Assigner le rôle avant le spawn
             PlayerData pdata = player.GetComponent<PlayerData>();
             pdata.role.Value = (i == 0) ? PlayerRole.Chasseur : PlayerRole.Fantome;
-
-            // Spawn réseau
-            netObj.SpawnAsPlayerObject(clientId, true);
 
             Debug.Log($"Spawn Player {clientId} | Role={pdata.role.Value}");
         }

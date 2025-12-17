@@ -77,10 +77,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   ShowTopMostFoldoutHeaderGroup: 1
-  chasseurRoot: {fileID: 5074390731140720278, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
-  fantomeRoot: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
-  chasseurController: {fileID: 7911633549731705964, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
-  fantomeController: {fileID: 312437366400657055, guid: 341b7216555744507b920916460a37ba, type: 3}
+  chasseurRoot: {fileID: 2224855296874796761}
+  fantomeRoot: {fileID: 2740618838132739820}
+  chasseurController: {fileID: 3837165483814093859}
+  fantomeController: {fileID: 8351845734448141992}
   role:
     m_InternalValue: 1
 --- !u!114 &8496954790139385446
@@ -196,6 +196,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2984471984699103789}
     m_Modifications:
+    - target: {fileID: 226985661735320168, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3621542277490629196, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.219738
@@ -242,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5074390731140720278, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7911633549731705964, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
       propertyPath: m_Enabled
@@ -256,6 +260,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+--- !u!1 &2224855296874796761 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5074390731140720278, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+  m_PrefabInstance: {fileID: 6380366362202812495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3837165483814093859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7911633549731705964, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
+  m_PrefabInstance: {fileID: 6380366362202812495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224855296874796761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2001dcdbdb2dfd409906b5aee02b96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControlePerso
 --- !u!4 &7694911123108162051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3621542277490629196, guid: 17cdbb095fb344556a31264bbcbb2ba7, type: 3}
@@ -269,6 +289,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2984471984699103789}
     m_Modifications:
+    - target: {fileID: 5451166700580863144, guid: 341b7216555744507b920916460a37ba, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5655692120945411982, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1610636894
@@ -287,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_TagString
