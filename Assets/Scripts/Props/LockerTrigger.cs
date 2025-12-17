@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class LockerTrigger : MonoBehaviour
 {
-    public LockerNetwork locker;
+    private LockerNetwork locker;
+
+    void Awake()
+    {
+        locker = GetComponentInParent<LockerNetwork>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        // Debug.Log("TRIGGER ENTER : " + other.name);
-
         if (other.CompareTag("fantome") || other.CompareTag("chasseur"))
         {
             locker.SetPlayerNearby(true);

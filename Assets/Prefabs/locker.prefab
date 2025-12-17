@@ -166,8 +166,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -23.1, y: -0.0000019073486, z: -37.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 3, y: 2, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9092107135305159864}
   - {fileID: 2737034731624334746}
@@ -390,6 +390,8 @@ MonoBehaviour:
   audioSource: {fileID: 592327625563672364}
   openCloseClip: {fileID: 8300000, guid: 1876efb1d0ee9c04f976912e4a2ad84d, type: 3}
   interactCooldown: 0.5
+  openDuration: 1
+  closeDuration: 1.5
 --- !u!1 &6785508012226291787
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,8 +419,8 @@ Transform:
   m_GameObject: {fileID: 6785508012226291787}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.033, y: 0.647, z: 0.324}
-  m_LocalScale: {x: 1.0530986, y: 1.0530986, z: 1.4096777}
+  m_LocalPosition: {x: -0.033, y: 0.647, z: 0.462}
+  m_LocalScale: {x: 1.0530986, y: 1.0530986, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3666812776502180406}
@@ -456,4 +458,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2716b79305d93d448d8e82b23bf282a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LockerTrigger
-  locker: {fileID: -7344393621375234923}
