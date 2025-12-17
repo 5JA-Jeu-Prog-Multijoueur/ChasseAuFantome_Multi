@@ -5,13 +5,13 @@ using Unity.Netcode;
 public class JoueurChasseur : NetworkBehaviour
 {
     [Header("Déplacement")]
-    public float vitesse = 5f;
-    public float vitesseTourne = 3f;
+    // public float vitesse = 5f;
+    // public float vitesseTourne = 3f;
 
-    float forceDeplacement;
-    float forceDeplacementH;
+    // float forceDeplacement;
+    // float forceDeplacementH;
 
-    Rigidbody rb;
+    // Rigidbody rb;
 
     [Header("Temps")]
     public float tempsDepars = 120f;
@@ -44,13 +44,26 @@ public class JoueurChasseur : NetworkBehaviour
     // =====================================================
     public override void OnNetworkSpawn()
     {
-        rb = GetComponent<Rigidbody>();
+        // rb = GetComponent<Rigidbody>();
 
         if (!IsOwner)
         {
             if (spotLight) spotLight.enabled = false;
-            return;
+
+            // Disable camera + audio
+            Camera cam = GetComponentInChildren<Camera>();
+            if (cam != null) cam.enabled = false;
+
+            AudioListener audio = GetComponentInChildren<AudioListener>();
+            if (audio != null) audio.enabled = false;
+
+        return;
         }
+
+        // Owner-only setup
+        Camera camOwner = GetComponentInChildren<Camera>();
+        if (camOwner != null)
+        camOwner.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -67,26 +80,26 @@ public class JoueurChasseur : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        forceDeplacement = Input.GetAxis("Vertical") * vitesse;
-        forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
+        // forceDeplacement = Input.GetAxis("Vertical") * vitesse;
+        // forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
 
-        float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
-        transform.Rotate(0f, valeurTourne, 0f);
+        // float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
+        // transform.Rotate(0f, valeurTourne, 0f);
 
         if (Input.GetKeyDown(KeyCode.F))
         {
             ToggleLampeServerRpc();
         }
 
-        if (GetComponent<Rigidbody>().linearVelocity.magnitude > 0)
-        {
-            GetComponent<Animator>().SetBool("Marche", true);
-        }
+        // if (GetComponent<Rigidbody>().linearVelocity.magnitude > 0)
+        // {
+        //     GetComponent<Animator>().SetBool("Marche", true);
+        // }
 
-        else
-        {
-            GetComponent<Animator>().SetBool("Marche", false);
-        }
+        // else
+        // {
+        //     GetComponent<Animator>().SetBool("Marche", false);
+        // }
     }
 
     // =====================================================
@@ -94,12 +107,12 @@ public class JoueurChasseur : NetworkBehaviour
     // =====================================================
     void FixedUpdate()
     {
-        if (!IsOwner) return;
+        // if (!IsOwner) return;
 
-        Vector3 move = (transform.forward * forceDeplacement)
-                     + (transform.right * forceDeplacementH);
+        // Vector3 move = (transform.forward * forceDeplacement)
+        //              + (transform.right * forceDeplacementH);
 
-        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+        // rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 
     // =====================================================

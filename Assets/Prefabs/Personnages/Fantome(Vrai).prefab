@@ -13,8 +13,7 @@ GameObject:
   - component: {fileID: 976216865790842751}
   - component: {fileID: 2075823710897592953}
   - component: {fileID: 6071610773003799180}
-  - component: {fileID: 2378646974264611097}
-  - component: {fileID: 5337976941574404507}
+  - component: {fileID: 5655692120945411982}
   - component: {fileID: 2973704820656072111}
   - component: {fileID: 433370752489868637}
   m_Layer: 0
@@ -146,7 +145,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &2378646974264611097
+--- !u!114 &5655692120945411982
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,39 +157,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2512074499
-  InScenePlacedSourceGlobalObjectIdHash: 2617061105
+  GlobalObjectIdHash: 2644395236
+  InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
-  Ownership: 8
+  Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 0
+  SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5337976941574404507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938273319915116564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 346e8169a306d5f40a4cc056b9dde64b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JoueurFantome
-  ShowTopMostFoldoutHeaderGroup: 1
-  vitesse: 20
-  vitesseTourne: 6
-  santeDepars: 100
-  niveauSante: {fileID: 1039458813072476183}
-  cible: {fileID: 0}
-  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
-  playerInside: 0
 --- !u!114 &2973704820656072111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   ShowTopMostFoldoutHeaderGroup: 1
+  chasseurRoot: {fileID: 0}
+  fantomeRoot: {fileID: 0}
   chasseurController: {fileID: 0}
   fantomeController: {fileID: 0}
   role:
@@ -668,13 +649,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8808848925825765980}
+  - component: {fileID: 312437366400657055}
   m_Layer: 0
   m_Name: Fantome(Vrai)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8808848925825765980
 Transform:
   m_ObjectHideFlags: 0
@@ -692,3 +674,21 @@ Transform:
   - {fileID: 6322463911462858544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &312437366400657055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725349100257109888}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346e8169a306d5f40a4cc056b9dde64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JoueurFantome
+  ShowTopMostFoldoutHeaderGroup: 1
+  santeDepars: 100
+  niveauSante: {fileID: 1039458813072476183}
+  cible: {fileID: 0}
+  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
+  playerInside: 0
