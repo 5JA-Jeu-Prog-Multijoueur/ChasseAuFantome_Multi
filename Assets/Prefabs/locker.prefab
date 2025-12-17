@@ -147,6 +147,8 @@ GameObject:
   - component: {fileID: 5954249714737752569}
   - component: {fileID: 139556237076366357}
   - component: {fileID: 592327625563672364}
+  - component: {fileID: 8809695290210729569}
+  - component: {fileID: -7344393621375234923}
   m_Layer: 0
   m_Name: locker
   m_TagString: Untagged
@@ -164,8 +166,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -23.1, y: -0.0000019073486, z: -37.2}
-  m_LocalScale: {x: 12.939123, y: 12.939123, z: 12.939123}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9092107135305159864}
   - {fileID: 2737034731624334746}
@@ -346,6 +348,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8809695290210729569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589597733262715393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 963668605
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 1
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &-7344393621375234923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589597733262715393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdcffac83e600d84ca187cfd84dfc656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockerNetwork
+  ShowTopMostFoldoutHeaderGroup: 1
+  doorAnimator: {fileID: 2442768492289913344}
+  audioSource: {fileID: 592327625563672364}
+  openCloseClip: {fileID: 8300000, guid: 1876efb1d0ee9c04f976912e4a2ad84d, type: 3}
+  interactCooldown: 0.5
 --- !u!1 &6785508012226291787
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9092107135305159864}
   - component: {fileID: 8266157127163295473}
-  - component: {fileID: 7324305409682402734}
+  - component: {fileID: 2840736439753891968}
   m_Layer: 0
   m_Name: ColliderTrigger
   m_TagString: Untagged
@@ -400,7 +444,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7324305409682402734
+--- !u!114 &2840736439753891968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -411,5 +455,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2716b79305d93d448d8e82b23bf282a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Locker
-  animateurPorte: {fileID: 2442768492289913344}
+  m_EditorClassIdentifier: Assembly-CSharp::LockerTrigger
+  locker: {fileID: -7344393621375234923}
