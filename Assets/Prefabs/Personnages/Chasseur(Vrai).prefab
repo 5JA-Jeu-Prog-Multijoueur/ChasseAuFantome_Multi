@@ -124,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 226985661735320168}
   serializedVersion: 2
   m_LocalRotation: {x: -0.03979571, y: 0.014085829, z: -0.0005617365, w: -0.99910843}
-  m_LocalPosition: {x: 0.28340912, y: 0.40578127, z: 0.14740562}
+  m_LocalPosition: {x: 0.28340912, y: 1.681, z: 0.011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1064,8 +1064,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 1, g: 0.8874781, b: 0.50628924, a: 1}
-  m_Intensity: 41623.89
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 312.17914
   m_Range: 50.9
   m_SpotAngle: 64.2146
   m_InnerSpotAngle: 21.80208
@@ -1108,8 +1108,8 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
+  m_ColorTemperature: 4015
+  m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_InnerSpotPercent: 1.5572783
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
-  m_VolumetricDimmer: 16
+  m_VolumetricDimmer: 2
   m_FadeDistance: 10000
   m_VolumetricFadeDistance: 10000
   m_AffectDiffuse: 1
@@ -1797,7 +1797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3621542277490629196
 Transform:
   m_ObjectHideFlags: 0
@@ -1828,8 +1828,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3316888327
-  InScenePlacedSourceGlobalObjectIdHash: 394144310
+  GlobalObjectIdHash: 3915526418
+  InScenePlacedSourceGlobalObjectIdHash: 3316888327
   DeferredDespawnTick: 0
   Ownership: 8
   AlwaysReplicateAsRoot: 0
@@ -2127,7 +2127,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1067058120689995236, guid: 24fc2c3e62c52bf4e9e63fd980b8e85d, type: 3}
+  - {fileID: 2100000, guid: 648ffaa5c9a6a9745a09dafdd6ae1fd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3144,11 +3144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4777606630871252, guid: d86ca2f4159e6a942abd8dfc52b38395, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1577816
+      value: 1.4330006
       objectReference: {fileID: 0}
     - target: {fileID: 4777606630871252, guid: d86ca2f4159e6a942abd8dfc52b38395, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5204067
+      value: 0.3840046
       objectReference: {fileID: 0}
     - target: {fileID: 4777606630871252, guid: d86ca2f4159e6a942abd8dfc52b38395, type: 3}
       propertyPath: m_LocalRotation.w

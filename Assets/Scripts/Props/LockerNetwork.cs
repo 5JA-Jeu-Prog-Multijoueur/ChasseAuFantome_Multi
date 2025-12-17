@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 
 public class LockerNetwork : NetworkBehaviour
 {
@@ -15,6 +16,13 @@ public class LockerNetwork : NetworkBehaviour
     private NetworkVariable<bool> isOpen =
         new NetworkVariable<bool>(false);
 
+    private NetworkVariable<bool> isAnimating =
+        new NetworkVariable<bool>(false);
+
+    [SerializeField] private float animationDuration = 4.0f;
+        private Coroutine unlockCoroutine;
+
+
     // Local
     private bool playerNearby;
     private float lastInteractTime;
@@ -24,13 +32,13 @@ public class LockerNetwork : NetworkBehaviour
         if (!IsClient) return;
 
         if (playerNearby)
-        Debug.Log("PLAYER NEARBY CONFIRMED");
+            Debug.Log("PLAYER NEARBY CONFIRMED");
 
         if (playerNearby &&
             Input.GetKeyDown(KeyCode.F) &&
             Time.time - lastInteractTime > interactCooldown)
-            Debug.Log("F PRESSED");
         {
+            Debug.Log("F PRESSED");
             lastInteractTime = Time.time;
             ToggleLockerServerRpc();
         }
@@ -41,7 +49,22 @@ public class LockerNetwork : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void ToggleLockerServerRpc()
     {
+        if (isAnimating.Value)
+            return;
+
+        isAnimating.Value = true;
         isOpen.Value = !isOpen.Value;
+
+        if (unlockCoroutine != null)
+            StopCoroutine(unlockCoroutine);
+
+        unlockCoroutine = StartCoroutine(UnlockAfterDelay());
+    }
+
+    IEnumerator UnlockAfterDelay()
+    {
+        yield return new WaitForSeconds(animationDuration);
+        isAnimating.Value = false;
     }
 
     // ===================== SYNC =====================
@@ -49,7 +72,10 @@ public class LockerNetwork : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         isOpen.OnValueChanged += OnLockerStateChanged;
-        OnLockerStateChanged(false, isOpen.Value);
+
+        // Initialisation SANS transition
+        if (doorAnimator)
+            doorAnimator.Play(isOpen.Value ? "porteOuverte" : "porteFermee", 0, 1f);
     }
 
     void OnDestroy()
@@ -61,7 +87,12 @@ public class LockerNetwork : NetworkBehaviour
     void OnLockerStateChanged(bool oldValue, bool newValue)
     {
         if (doorAnimator)
+        {
+            doorAnimator.Play(doorAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0f);
             doorAnimator.SetBool("ouvrir", newValue);
+        }
+
+        if (!IsClient) return;
 
         if (audioSource && openCloseClip)
             audioSource.PlayOneShot(openCloseClip);
