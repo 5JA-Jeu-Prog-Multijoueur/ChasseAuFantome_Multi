@@ -14,7 +14,7 @@ public class PlayerData : NetworkBehaviour
     [Header("Rôle")]
     public NetworkVariable<PlayerRole> role =
         new NetworkVariable<PlayerRole>(
-            PlayerRole.Fantome,
+            default,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server
         );
@@ -51,19 +51,25 @@ public class PlayerData : NetworkBehaviour
 
     private void AppliquerRole(PlayerRole roleActuel)
     {
-        //  VISUEL : visible pour TOUT LE MONDE
-        chasseurRoot.SetActive(roleActuel == PlayerRole.Chasseur);
-        fantomeRoot.SetActive(roleActuel == PlayerRole.Fantome);
+        chasseurRoot.SetActive(false);
+        fantomeRoot.SetActive(false);
 
-        //  CONTRÔLE : seulement pour l'owner
-        if (!IsOwner)
-        {
-            chasseurController.enabled = false;
-            fantomeController.enabled = false;
+        chasseurController.enabled = false;
+        fantomeController.enabled = false;
+
+        if (roleActuel == default)
             return;
-        }
+
+        if (roleActuel == PlayerRole.Chasseur)
+            chasseurRoot.SetActive(true);
+        else
+            fantomeRoot.SetActive(true);
+
+        if (!IsOwner)
+            return;
 
         chasseurController.enabled = roleActuel == PlayerRole.Chasseur;
         fantomeController.enabled = roleActuel == PlayerRole.Fantome;
     }
+
 }
