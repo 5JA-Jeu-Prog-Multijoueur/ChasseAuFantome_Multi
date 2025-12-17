@@ -41,20 +41,7 @@ public class JoueurFantome : NetworkBehaviour
         {
             if (toucheE) toucheE.SetActive(false);
             if (niveauSante) niveauSante.gameObject.SetActive(false);
-
-            // Disable camera + audio
-            Camera cam = GetComponentInChildren<Camera>();
-            if (cam != null) cam.enabled = false;
-
-            AudioListener audio = GetComponentInChildren<AudioListener>();
-            if (audio != null) audio.enabled = false;
-            return;
         }
-
-        // Owner-only setup
-        Camera camOwner = GetComponentInChildren<Camera>();
-        if (camOwner != null)
-        camOwner.enabled = true;
 
         santeActuel.OnValueChanged += OnSanteChange;
         UpdateBarreVie();
@@ -93,6 +80,7 @@ public class JoueurFantome : NetworkBehaviour
     [ServerRpc]
     public void PrendreDegatsServerRpc(float degats)
     {
+        Debug.Log("Fantome perd du dégat");
         santeActuel.Value -= degats;
 
         if (santeActuel.Value < 0)

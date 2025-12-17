@@ -14,7 +14,7 @@ public class PlayerData : NetworkBehaviour
     [Header("Rôle")]
     public NetworkVariable<PlayerRole> role =
         new NetworkVariable<PlayerRole>(
-            PlayerRole.Fantome,
+            default,
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Server
         );
@@ -51,19 +51,51 @@ public class PlayerData : NetworkBehaviour
 
     private void AppliquerRole(PlayerRole roleActuel)
     {
-        //  VISUEL : visible pour TOUT LE MONDE
-        chasseurRoot.SetActive(roleActuel == PlayerRole.Chasseur);
-        fantomeRoot.SetActive(roleActuel == PlayerRole.Fantome);
+        chasseurRoot.SetActive(false);
+        fantomeRoot.SetActive(false);
 
-        //  CONTRÔLE : seulement pour l'owner
-        if (!IsOwner)
-        {
-            chasseurController.enabled = false;
-            fantomeController.enabled = false;
+        if (roleActuel == default)
             return;
+
+        if (roleActuel == PlayerRole.Chasseur)
+        {
+            chasseurRoot.SetActive(true);
         }
 
-        chasseurController.enabled = roleActuel == PlayerRole.Chasseur;
-        fantomeController.enabled = roleActuel == PlayerRole.Fantome;
+        else if(roleActuel == PlayerRole.Fantome)
+        {
+            fantomeRoot.SetActive(true);
+        }
+
+        chasseurController.enabled = IsOwner && roleActuel == PlayerRole.Chasseur;
+        fantomeController.enabled = IsOwner && roleActuel == PlayerRole.Fantome;
+
+        SetLocalCamera(chasseurRoot, IsOwner && roleActuel == PlayerRole.Chasseur);
+        SetLocalCamera(fantomeRoot, IsOwner && roleActuel == PlayerRole.Fantome);
     }
+
+    private void SetLocalCamera(GameObject root, bool enable)
+{
+    Camera cam = root.GetComponentInChildren<Camera>(true);
+    if (cam != null)
+        cam.enabled = enable;
+
+    AudioListener audio = root.GetComponentInChildren<AudioListener>(true);
+    if (audio != null)
+        audio.enabled = enable;
+
+    if (enable && cam != null)
+    {
+        Camera sceneCam = Camera.main;
+        if (sceneCam != null && !sceneCam.transform.IsChildOf(transform) && sceneCam != cam)
+        {
+            sceneCam.enabled = false;
+            AudioListener al = sceneCam.GetComponent<AudioListener>();
+            if (al != null)
+                al.enabled = false;
+        }
+    }
+}
+
+
 }

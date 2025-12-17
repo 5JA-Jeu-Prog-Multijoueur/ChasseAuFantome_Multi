@@ -49,21 +49,8 @@ public class JoueurChasseur : NetworkBehaviour
         if (!IsOwner)
         {
             if (spotLight) spotLight.enabled = false;
-
-            // Disable camera + audio
-            Camera cam = GetComponentInChildren<Camera>();
-            if (cam != null) cam.enabled = false;
-
-            AudioListener audio = GetComponentInChildren<AudioListener>();
-            if (audio != null) audio.enabled = false;
-
         return;
         }
-
-        // Owner-only setup
-        Camera camOwner = GetComponentInChildren<Camera>();
-        if (camOwner != null)
-        camOwner.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -139,6 +126,7 @@ public class JoueurChasseur : NetworkBehaviour
     void DoRaycast()
     {
         if (!IsServer) return;
+       
 
         if (Physics.Raycast(spotLight.transform.position,
                             spotLight.transform.forward,
@@ -148,11 +136,13 @@ public class JoueurChasseur : NetworkBehaviour
         {
             if (hit.collider.CompareTag("fantome"))
             {
+               
                 JoueurFantome fantome =
                     hit.collider.GetComponentInParent<JoueurFantome>();
 
                 if (fantome != null)
                 {
+                    Debug.Log("Fantome touché");
                     fantome.PrendreDegatsServerRpc(20f);
                 }
             }

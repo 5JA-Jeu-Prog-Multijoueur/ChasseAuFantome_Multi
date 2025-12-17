@@ -30,7 +30,7 @@ public class JoueursDeplacement : NetworkBehaviour
         float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
         transform.Rotate(0f, valeurTourne, 0f);
 
-        if (GetComponent<Rigidbody>().velocity.magnitude > 0)
+        if (GetComponent<Rigidbody>().linearVelocity.magnitude > 0)
         {
             GetComponentInChildren<Animator>().SetBool("Marche", true);
         }
@@ -51,6 +51,6 @@ public class JoueursDeplacement : NetworkBehaviour
         Vector3 move = (transform.forward * forceDeplacement)
                      + (transform.right * forceDeplacementH);
 
-        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 }
