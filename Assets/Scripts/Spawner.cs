@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
         if (singleton == null)
         {
             singleton = this;
-            DontDestroyOnLoad(gameObject); // optionnel, si tu veux garder le Spawner entre les scènes
+            // DontDestroyOnLoad(gameObject); // optionnel, si tu veux garder le Spawner entre les scènes
         }
         else
         {

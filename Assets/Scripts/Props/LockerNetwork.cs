@@ -7,7 +7,8 @@ public class LockerNetwork : NetworkBehaviour
     [Header("Références")]
     public Animator doorAnimator;      // Animator de la porte (enfant)
     public AudioSource audioSource;     // AudioSource (parent ou enfant)
-    public AudioClip openCloseClip;
+    public AudioClip openClip;
+    public AudioClip closeClip;
 
     [Header("Paramètres")]
     public float interactCooldown = 0.5f;
@@ -91,13 +92,23 @@ public class LockerNetwork : NetworkBehaviour
 
     void OnLockerStateChanged(bool oldValue, bool newValue)
     {
+        // 1. Gérer l'animation
         if (doorAnimator)
             doorAnimator.SetBool("ouvrir", newValue);
 
         if (!IsClient) return;
 
-        if (audioSource && openCloseClip)
-            audioSource.PlayOneShot(openCloseClip);
+        // 2. Gérer le son selon le nouvel état (newValue)
+        if (audioSource)
+        {
+            // Si newValue est true -> on ouvre, sinon -> on ferme
+            AudioClip clipToPlay = newValue ? openClip : closeClip;
+            
+            if (clipToPlay != null)
+            {
+                audioSource.PlayOneShot(clipToPlay);
+            }
+        }
     }
 
     // ===================== TRIGGERS =====================
