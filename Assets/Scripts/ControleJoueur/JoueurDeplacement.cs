@@ -5,7 +5,7 @@ using Unity.Netcode.Components;
 [RequireComponent(typeof(NetworkTransform))]
 public class JoueurDeplacement : NetworkBehaviour
 {
-    [Header("D�placement")]
+    [Header("D�placement")]
     public float vitesse = 5f;
     public float vitesseTourne = 3f;
 
@@ -29,6 +29,17 @@ public class JoueurDeplacement : NetworkBehaviour
 
         Vector3 move = transform.forward * moveForward + transform.right * moveRight;
         transform.position += move * Time.deltaTime;
+
+        if(move.sqrMagnitude > 0.01f)
+        {
+            // Animation de marche peut être ajoutée ici
+            GetComponentInChildren<Animator>()?.SetBool("Marche", true);
+        }
+
+        else
+        {
+            GetComponentInChildren<Animator>()?.SetBool("Marche", false); 
+        }
     }
 }
 

@@ -97,14 +97,13 @@ public class AnimationsPosition : NetworkBehaviour
     // --- TRIGGERS ---
     void OnTriggerEnter(Collider other)
     {
-        // On vérifie le tag (attention à la majuscule si ton tag est "Fantome")
-        if (other.CompareTag("Fantome") || other.CompareTag("Chasseur"))
+        if (other.CompareTag("fantome") || other.CompareTag("chasseur"))
             playerInside = true;
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Fantome") || other.CompareTag("Chasseur"))
+        if (other.CompareTag("fantome") || other.CompareTag("chasseur"))
             playerInside = false;
     }
 }

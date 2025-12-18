@@ -49,16 +49,20 @@ public class JoueurChasseur : NetworkBehaviour
         if (!IsOwner) return;
 
         // Lampe
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            ToggleLampeServerRpc();
-        }
+        // if (Input.GetKeyDown(KeyCode.F))
+        // {
+        //     ToggleLampeServerRpc();
+        // }
+
+        DoRaycast();
     }
 
     [ServerRpc]
     void ToggleLampeServerRpc()
     {
         lampeAllumee.Value = !lampeAllumee.Value;
+        if (lampeAllumee.Value)
+        DoRaycast(); // runs on server because this is a ServerRpc
     }
 
     void OnLampeChange(bool oldValue, bool newValue)
@@ -66,43 +70,48 @@ public class JoueurChasseur : NetworkBehaviour
         if (spotLight)
             spotLight.enabled = newValue;
 
-        if (newValue)
-            DoRaycast();
+        // if (newValue)
+        //     DoRaycast();
     }
 
-    void DoRaycast()
+     void DoRaycast()
+{
+    RaycastHit hit;
+
+    Vector3 origin = spotLight.transform.position;
+    Vector3 direction = spotLight.transform.forward;
+
+    // Ligne rouge = direction du rayon
+    Debug.DrawRay(origin, direction * rayDistance, Color.red);
+
+    if (Physics.Raycast(origin, direction, out hit, rayDistance))
     {
-        if (!IsServer) return; // Assure que seul le serveur applique les dégâts
+        Debug.DrawLine(origin, hit.point, Color.yellow);
 
-        // Origine et direction du raycast
-        Vector3 origin = spotLight.transform.position;
-        Vector3 direction = spotLight.transform.forward;
+        Debug.Log($"Hit: {hit.collider.name} | Tag: {hit.collider.tag}");
 
-        // Dessine le rayon dans la scène pour debug
-        Debug.DrawRay(origin, direction * rayDistance, Color.red, 0.1f);
-
-        // Lance le raycast
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, rayDistance, hitLayers))
+        // âœ… Tag check
+        if (hit.collider.CompareTag("fantome"))
         {
-            Debug.Log("Raycast a touché : " + hit.collider.name + " sur layer " + LayerMask.LayerToName(hit.collider.gameObject.layer));
+            // âœ… Script may be on parent
+            JoueurFantome fantome =
+                hit.collider.GetComponent<JoueurFantome>();
+                // hit.collider.GetComponentInParent<JoueurFantome>();
 
-            // Cherche le script JoueurFantome dans le parent
-            JoueurFantome fantome = hit.collider.GetComponentInParent<JoueurFantome>();
             if (fantome != null)
             {
-                fantome.PrendreDegatsServerRpc(20f); // Applique les dégâts
-                Debug.Log("Fantôme touché !");
+                Debug.Log("Le fantÃ´me perd sa vie");
+                fantome.PrendreDegatsServerRpc(20f); // Applique les dÃ©gÃ¢ts
             }
             else
             {
-                Debug.Log("Collider touché mais pas de JoueurFantome trouvé dans le parent");
+                Debug.LogWarning("Collider tagged 'fantome' but no JoueurFantome found");
             }
         }
-        else
-        {
-            Debug.Log("Raycast n'a rien touché");
-        }
     }
+}
+
+
 
 
     void OnTempsChange(float oldValue, float newValue)
