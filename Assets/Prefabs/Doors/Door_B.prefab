@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 400006}
   - component: {fileID: 3447505652931094536}
-  - component: {fileID: -5096499543342125943}
   - component: {fileID: 2875717723353631355}
   - component: {fileID: 740745814870351794}
   - component: {fileID: -6850411352714134724}
   - component: {fileID: -1345745286922976220}
+  - component: {fileID: 5890369340546341404}
+  - component: {fileID: 1753292036195981859}
+  - component: {fileID: 7727925599468511522}
   m_Layer: 0
   m_Name: Door_B
   m_TagString: PorteB
@@ -35,7 +37,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 461646}
   - {fileID: 478576}
   - {fileID: 485196}
   m_Father: {fileID: 0}
@@ -53,44 +54,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
   GlobalObjectIdHash: 3673956850
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 3673956850
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 1
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &-5096499543342125943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1965ee78a6d8440dbd705effce71427, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotatingDoor
-  ShowTopMostFoldoutHeaderGroup: 1
-  openAngle: 90
-  rotateSpeed: 120
-  isOpening:
-    m_InternalValue: 0
-  isClosing:
-    m_InternalValue: 0
-  isOpen:
-    m_InternalValue: 0
-  isClosed:
-    m_InternalValue: 1
-  playerInside: 0
-  audioSource: {fileID: -6850411352714134724}
-  doorClip: {fileID: 8300000, guid: 2f8c61099d4373f479a6c5daf49429b9, type: 3}
 --- !u!23 &2875717723353631355
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -292,55 +267,39 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!1 &105728
-GameObject:
+--- !u!114 &5890369340546341404
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 461646}
-  - component: {fileID: 3330692}
-  - component: {fileID: 6450972}
-  - component: {fileID: 2735136266835958896}
-  m_Layer: 0
-  m_Name: Door_B
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &461646
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105728}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 400006}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3330692
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105728}
-  m_Mesh: {fileID: 4300004, guid: c2155ffe2a264a143a77825d2c95977d, type: 3}
---- !u!64 &6450972
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1965ee78a6d8440dbd705effce71427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotatingDoor
+  ShowTopMostFoldoutHeaderGroup: 1
+  openAngle: 90
+  rotateSpeed: 120
+  isOpening:
+    m_InternalValue: 0
+  isClosing:
+    m_InternalValue: 0
+  isOpen:
+    m_InternalValue: 0
+  isClosed:
+    m_InternalValue: 1
+  playerInside: 0
+  audioSource: {fileID: -6850411352714134724}
+  doorClip: {fileID: 8300000, guid: 2f8c61099d4373f479a6c5daf49429b9, type: 3}
+--- !u!64 &1753292036195981859
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105728}
+  m_GameObject: {fileID: 100006}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -353,16 +312,16 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300056, guid: 628e5212ccbe5044ba8b70740d37394e, type: 3}
---- !u!65 &2735136266835958896
+--- !u!65 &7727925599468511522
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105728}
+  m_GameObject: {fileID: 100006}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
