@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5655692120945411982}
   - component: {fileID: 2973704820656072111}
   - component: {fileID: 433370752489868637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fantome(Mesh)
   m_TagString: fantome
   m_Icon: {fileID: 0}
@@ -158,13 +158,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
   GlobalObjectIdHash: 2644395236
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 2529952554
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 8680847874045579061}
   - component: {fileID: 3651191068988389520}
   - component: {fileID: 1039458813072476183}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: vie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ RectTransform:
   m_GameObject: {fileID: 2543710866750832189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.93412477, y: 0.16130765, z: 0.25165}
+  m_LocalScale: {x: 0.7311301, y: 0.16130765, z: 0.25165}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6108087456341245901}
@@ -298,13 +298,13 @@ GameObject:
   - component: {fileID: 2889748271695449376}
   - component: {fileID: 7948679870518786921}
   - component: {fileID: 605162574392519110}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6108087456341245901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -312,17 +312,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3620270524036283433}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.15}
-  m_LocalScale: {x: 0.0024298758, y: 0.0024298758, z: 0.0024298758}
+  m_LocalRotation: {x: -0.4597929, y: -0.54003704, z: 0.5076078, w: 0.48916745}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0261}
+  m_LocalScale: {x: 0.00011728383, y: 0.00012669491, z: 0.0005183897}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8680847874045579061}
   m_Father: {fileID: 6322463911462858544}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.648, y: -90.351, z: 86.437}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.03, y: 1.615}
+  m_AnchoredPosition: {x: 0.0022, y: -0.0014}
   m_SizeDelta: {x: 899.6667, y: 630.3334}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2889748271695449376
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 342823640077912520}
   - component: {fileID: 5168237586220552577}
   - component: {fileID: 5374868386972394433}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraFantome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -649,10 +649,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8808848925825765980}
+  - component: {fileID: -2265918448659871595}
   - component: {fileID: 312437366400657055}
-  m_Layer: 0
+  - component: {fileID: 2581742038060303013}
+  - component: {fileID: -4857501653060277471}
+  - component: {fileID: -9095901175810761064}
+  m_Layer: 6
   m_Name: Fantome(Vrai)
-  m_TagString: Untagged
+  m_TagString: fantome
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -666,7 +670,7 @@ Transform:
   m_GameObject: {fileID: 6725349100257109888}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 41.36, y: -6.1, z: 27.27}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -674,6 +678,31 @@ Transform:
   - {fileID: 6322463911462858544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2265918448659871595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725349100257109888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 2529952554
+  InScenePlacedSourceGlobalObjectIdHash: 2529952554
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &312437366400657055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +710,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6725349100257109888}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346e8169a306d5f40a4cc056b9dde64b, type: 3}
   m_Name: 
@@ -689,6 +718,101 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   santeDepars: 100
   niveauSante: {fileID: 1039458813072476183}
-  cible: {fileID: 0}
   toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
   playerInside: 0
+--- !u!114 &2581742038060303013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725349100257109888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 1
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!54 &-4857501653060277471
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725349100257109888}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!136 &-9095901175810761064
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725349100257109888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

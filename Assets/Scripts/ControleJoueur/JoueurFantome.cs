@@ -4,19 +4,9 @@ using Unity.Netcode;
 
 public class JoueurFantome : NetworkBehaviour
 {
-    [Header("Déplacement")]
-    // public float vitesse = 5f;
-    // public float vitesseTourne = 3f;
-
-    // float forceDeplacement;
-    // float forceDeplacementH;
-
-    // Rigidbody rb;
-
     [Header("Santé")]
     public float santeDepars = 100f;
     public Image niveauSante;
-    public Transform cible;
 
     private NetworkVariable<float> santeActuel =
         new NetworkVariable<float>(
@@ -29,14 +19,8 @@ public class JoueurFantome : NetworkBehaviour
     public GameObject toucheE;
     public bool playerInside;
 
-    // =====================================================
-    // INITIALISATION RÉSEAU
-    // =====================================================
     public override void OnNetworkSpawn()
     {
-        // rb = GetComponent<Rigidbody>();
-
-        // 🔹 UI uniquement pour le joueur local
         if (!IsOwner)
         {
             if (toucheE) toucheE.SetActive(false);
@@ -48,46 +32,15 @@ public class JoueurFantome : NetworkBehaviour
     }
 
     // =====================================================
-    // INPUT JOUEUR LOCAL
-    // =====================================================
-    void Update()
-    {
-        // if (!IsOwner) return;
-
-        // forceDeplacement = Input.GetAxis("Vertical") * vitesse;
-        // forceDeplacementH = Input.GetAxis("Horizontal") * vitesse;
-
-        // float valeurTourne = Input.GetAxis("Mouse X") * vitesseTourne;
-        // transform.Rotate(0f, valeurTourne, 0f);
-    }
-
-    // =====================================================
-    // PHYSIQUE (SEULEMENT OWNER)
-    // =====================================================
-    void FixedUpdate()
-    {
-        // if (!IsOwner) return;
-
-        // Vector3 move = (transform.forward * forceDeplacement)
-        //              + (transform.right * forceDeplacementH);
-
-        // rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-    }
-
-    // =====================================================
-    // DÉGÂTS (SERVEUR AUTORITAIRE)
+    // DÉGÂTS (SERVER AUTHORITY)
     // =====================================================
     [ServerRpc]
     public void PrendreDegatsServerRpc(float degats)
     {
-        Debug.Log("Fantome perd du dégat");
         santeActuel.Value -= degats;
-
-        if (santeActuel.Value < 0)
-            santeActuel.Value = 0;
-
-        if (santeActuel.Value == 0)
+        if (santeActuel.Value <= 0)
         {
+            santeActuel.Value = 0;
             FantomeMort();
         }
     }
@@ -105,8 +58,6 @@ public class JoueurFantome : NetworkBehaviour
 
     void FantomeMort()
     {
-        Debug.Log("Fantôme mort !");
-
         foreach (Collider col in GetComponentsInChildren<Collider>())
             col.enabled = false;
     }
@@ -124,7 +75,8 @@ public class JoueurFantome : NetworkBehaviour
             other.CompareTag("PorteArc"))
         {
             playerInside = true;
-            toucheE.SetActive(true);
+            if (toucheE)
+                toucheE.SetActive(true);
         }
     }
 
