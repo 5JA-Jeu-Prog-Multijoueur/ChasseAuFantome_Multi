@@ -9,14 +9,7 @@ public class JoueurDeplacement : NetworkBehaviour
     public float vitesse = 5f;
     public float vitesseTourne = 3f;
 
-    private void Awake()
-    {
-        // Recentre le mesh enfant sur le pivot du parent
-        transform.GetChild(0).localPosition = new Vector3(0f, transform.GetChild(0).localPosition.y, 0f);
-
-
-    }
-
+    
     void Update()
     {
         if (!IsOwner) return;

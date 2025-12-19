@@ -28,6 +28,7 @@ public class JoueurChasseur : NetworkBehaviour
             NetworkVariableWritePermission.Server
         );
 
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner)
@@ -49,11 +50,11 @@ public class JoueurChasseur : NetworkBehaviour
         if (!IsOwner) return;
 
         // Lampe
-        // if (Input.GetKeyDown(KeyCode.F))
-        // {
-        //     ToggleLampeServerRpc();
-        // }
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+             ToggleLampeServerRpc();
+         
+        }
         DoRaycast();
     }
 
