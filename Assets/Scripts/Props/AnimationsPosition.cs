@@ -3,21 +3,20 @@ using Unity.Netcode;
 
 public class AnimationsPosition : NetworkBehaviour
 {
+    [Header("Réglages Mouvement")]
     public float moveSpeed = 2f;
     public float moveAmount = 2f;
-    public float openDelay = 2f;
+    public float openDelay = 3f; // Variable publique pour ton délai
 
+    [Header("Synchronisation")]
     public NetworkVariable<bool> isOpening = new(false);
     public NetworkVariable<bool> isClosing = new(false);
-    public NetworkVariable<bool> isOpen = new(false);
-    public NetworkVariable<bool> isClosed = new(true);
 
     public bool playerInside;
-
     private float startZ;
     private float targetZ;
 
-    // Gestion sons
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip doorClip;
 
@@ -29,33 +28,32 @@ public class AnimationsPosition : NetworkBehaviour
 
     void Update()
     {
-        // ----- OPEN -----
-        if (playerInside && Input.GetKeyDown(KeyCode.E) && isClosed.Value && !isOpening.Value)
+        // 1. Détection de l'input local
+        if (playerInside && Input.GetKeyDown(KeyCode.E))
         {
+            // On demande au serveur d'ouvrir la porte
             OpenDoorServerRpc();
         }
 
-        if (IsServer && isOpening.Value)
+        // 2. Mouvement (calculé chez tout le monde pour la fluidité)
+        if (isOpening.Value)
         {
             MoveTo(targetZ);
-
-            if (Reached(targetZ))
+            
+            if (IsServer && Reached(targetZ))
             {
                 isOpening.Value = false;
-                isOpen.Value = true;
-                Invoke(nameof(CloseDoor), openDelay);
+                // Attend 'openDelay' secondes avant de fermer
+                Invoke(nameof(StartClosing), openDelay); 
             }
         }
-
-        // ----- CLOSE -----
-        if (IsServer && isClosing.Value)
+        else if (isClosing.Value)
         {
             MoveTo(startZ);
 
-            if (Reached(startZ))
+            if (IsServer && Reached(startZ))
             {
                 isClosing.Value = false;
-                isClosed.Value = true;
             }
         }
     }
@@ -63,12 +61,11 @@ public class AnimationsPosition : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void OpenDoorServerRpc()
     {
-        if (!isClosed.Value) return;
+        // On vérifie que la porte est fermée et immobile avant d'ouvrir
+        if (isOpening.Value || isClosing.Value || Reached(targetZ)) return;
 
         isOpening.Value = true;
-        isClosed.Value = false;
-
-        PlayDoorSoundClientRpc();
+        PlayDoorSoundClientRpc(); // Joue le son chez tout le monde
     }
 
     [ClientRpc]
@@ -80,10 +77,9 @@ public class AnimationsPosition : NetworkBehaviour
         }
     }
 
-    void CloseDoor()
+    void StartClosing()
     {
-        isOpen.Value = false;
-        isClosing.Value = true;
+        if (IsServer) isClosing.Value = true;
     }
 
     void MoveTo(float target)
@@ -95,9 +91,10 @@ public class AnimationsPosition : NetworkBehaviour
 
     bool Reached(float target)
     {
-        return Mathf.Abs(transform.position.z - target) < 0.0001f;
+        return Mathf.Abs(transform.position.z - target) < 0.01f;
     }
 
+    // --- TRIGGERS ---
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("fantome") || other.CompareTag("chasseur"))

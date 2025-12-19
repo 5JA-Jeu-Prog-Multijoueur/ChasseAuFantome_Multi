@@ -10,19 +10,19 @@ public class GestionTemps : MonoBehaviour
 
     void Start()
     {
-        // Le temps actuel commence avec le temps de départ
+        // Le temps actuel commence avec le temps de dï¿½part
         tempsActuel = tempsDepars;
     }
 
     void Update()
     {
-        // Décrémentation avec le temps réel
+        // Dï¿½crï¿½mentation avec le temps rï¿½el
         if (tempsActuel > 0)
         {
             tempsActuel -= Time.deltaTime;
         }
 
-        // Empêche que le temps devienne négatif
+        // Empï¿½che que le temps devienne nï¿½gatif
         tempsActuel = Mathf.Max(tempsActuel, 0);
 
         // Affichage avec arrondi (ex: 59 au lieu de 59.3847)
@@ -31,7 +31,8 @@ public class GestionTemps : MonoBehaviour
         // Condition de fin
         if (tempsActuel == 0)
         {
-            Debug.Log("Fin de la partie");
+            Debug.Log("Fin de la partie"); 
+            SceneFinManager.Instance.AnnoncerVictoireEtChargerSceneServerRpc(0);
         }
     }
 }

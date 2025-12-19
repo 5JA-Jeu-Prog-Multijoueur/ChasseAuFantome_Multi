@@ -178,15 +178,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 2
   moveAmount: 2
-  openDelay: 2
+  openDelay: 4
   isOpening:
     m_InternalValue: 0
   isClosing:
     m_InternalValue: 0
-  isOpen:
-    m_InternalValue: 0
-  isClosed:
-    m_InternalValue: 1
   playerInside: 0
   audioSource: {fileID: -2729034482496996260}
   doorClip: {fileID: 8300000, guid: 5de3a71f9b07dfc46a9ff3458a4576f7, type: 3}

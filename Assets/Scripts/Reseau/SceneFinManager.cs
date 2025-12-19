@@ -46,6 +46,7 @@ public class SceneFinManager : NetworkBehaviour
         if (idJoueurGagnant.Value != -1)
         {
              UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
+             
         }
     }
 
@@ -203,6 +204,9 @@ public class SceneFinManager : NetworkBehaviour
 
     private void ShutdownAndExit()
     {
+        Cursor.lockState = CursorLockMode.None; // Déverrouille la souris
+        Cursor.visible = true;                  // Rend la souris visible
+
         if (AuthenticationService.Instance.IsSignedIn)
         {
             AuthenticationService.Instance.SignOut();

@@ -114,7 +114,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300114, guid: 628e5212ccbe5044ba8b70740d37394e, type: 3}
 --- !u!65 &6452475689278186875
@@ -136,8 +136,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.423291, y: 1.2018788, z: 3.5158234}
-  m_Center: {x: 1.371408, y: -0.019551873, z: 0.0138350725}
+  m_Size: {x: 7.423291, y: 2.7011402, z: 3.5158234}
+  m_Center: {x: 1.371408, y: -0.06240535, z: 0.0138350725}
 --- !u!114 &-7048683951363749782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,13 +151,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
   GlobalObjectIdHash: 3506486112
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 3506486112
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 1
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -176,9 +176,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationsPositionY
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2
-  moveAmount: 2
-  openDelay: 2
+  moveSpeed: 1.75
+  moveAmount: 4
+  openDelay: 4
   isOpening:
     m_InternalValue: 0
   isClosing:
