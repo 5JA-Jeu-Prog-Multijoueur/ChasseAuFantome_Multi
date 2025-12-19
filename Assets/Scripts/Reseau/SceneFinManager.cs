@@ -46,6 +46,7 @@ public class SceneFinManager : NetworkBehaviour
         if (idJoueurGagnant.Value != -1)
         {
              UpdateUIText(_texteJoueurGagnant, idJoueurGagnant.Value);
+             
         }
     }
 

@@ -102,6 +102,7 @@ public class JoueurChasseur : NetworkBehaviour
             {
                 Debug.Log("Le fantôme perd sa vie");
                 fantome.PrendreDegatsServerRpc(20f); // Applique les dégâts
+                SceneFinManager.Instance.AnnoncerVictoireEtChargerSceneServerRpc(0);
             }
             else
             {
