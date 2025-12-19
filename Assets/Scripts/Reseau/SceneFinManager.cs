@@ -140,6 +140,7 @@ public class SceneFinManager : NetworkBehaviour
 
     private void UpdateUIText(TMP_Text targetText, int winnerId)
     {
+
         if (targetText != null && winnerId != -1)
         {
             targetText.text = "Victoire! Le joueur " + winnerId + " a gagné la partie.";

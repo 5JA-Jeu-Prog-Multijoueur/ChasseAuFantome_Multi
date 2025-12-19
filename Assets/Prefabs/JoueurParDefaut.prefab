@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 479239202
+  GlobalObjectIdHash: 1704728400
   InScenePlacedSourceGlobalObjectIdHash: 479239202
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1144,15 +1144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1164,7 +1164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 8808848925825765980, guid: 341b7216555744507b920916460a37ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1179,7 +1179,11 @@ PrefabInstance:
     - {fileID: 312437366400657055, guid: 341b7216555744507b920916460a37ba, type: 3}
     - {fileID: 5655692120945411982, guid: 341b7216555744507b920916460a37ba, type: 3}
     - {fileID: -9095901175810761064, guid: 341b7216555744507b920916460a37ba, type: 3}
-    m_RemovedGameObjects: []
+    - {fileID: 2581742038060303013, guid: 341b7216555744507b920916460a37ba, type: 3}
+    - {fileID: -2265918448659871595, guid: 341b7216555744507b920916460a37ba, type: 3}
+    - {fileID: 5374868386972394433, guid: 341b7216555744507b920916460a37ba, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 3620270524036283433, guid: 341b7216555744507b920916460a37ba, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6725349100257109888, guid: 341b7216555744507b920916460a37ba, type: 3}
@@ -1239,9 +1243,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JoueurFantome
   ShowTopMostFoldoutHeaderGroup: 1
   santeDepars: 100
-  niveauSante: {fileID: 8444664124950028667}
-  toucheE: {fileID: 5948864488191047232, guid: 6f9c32e53b87c4c6ebcd22ec87030fdd, type: 3}
+  niveauSante: {fileID: 0}
+  toucheF: {fileID: 0}
   playerInside: 0
+  CanvasFin: {fileID: 0}
 --- !u!82 &6031067227448180947
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1339,14 +1344,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8444664124950028667 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1039458813072476183, guid: 341b7216555744507b920916460a37ba, type: 3}
-  m_PrefabInstance: {fileID: 8889436129912433004}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
